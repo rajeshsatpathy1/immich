@@ -272,6 +272,12 @@ const checkOtherAccess = async (access: AccessRepository, request: OtherAccessRe
       return access.memory.checkOwnerAccess(auth.user.id, ids);
     }
 
+    case Permission.HighlightRead:
+    case Permission.HighlightUpdate:
+    case Permission.HighlightDelete: {
+      return access.highlight.checkOwnerAccess(auth.user.id, ids);
+    }
+
     case Permission.PersonCreate: {
       return access.person.checkFaceOwnerAccess(auth.user.id, ids);
     }
