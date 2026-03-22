@@ -505,6 +505,9 @@ export type UserPreferences = {
     enabled: boolean;
     sidebarWeb: boolean;
   };
+  highlights: {
+    enabled: boolean;
+  };
   memories: {
     enabled: boolean;
     duration: number;

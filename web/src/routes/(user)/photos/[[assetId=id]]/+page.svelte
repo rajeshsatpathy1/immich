@@ -26,6 +26,7 @@
   import { AssetInteraction } from '$lib/stores/asset-interaction.svelte';
   import { assetViewingStore } from '$lib/stores/asset-viewing.store';
   import { isFaceEditMode } from '$lib/stores/face-edit.svelte';
+  import { highlightStore } from '$lib/stores/highlight.store.svelte';
   import { memoryStore } from '$lib/stores/memory.store.svelte';
   import { preferences, user } from '$lib/stores/user.store';
   import { getAssetMediaUrl, memoryLaneTitle } from '$lib/utils';
@@ -99,6 +100,20 @@
       src: getAssetMediaUrl({ id: memory.assets[0].id }),
     })),
   );
+
+  const highlightItems = $derived(
+    highlightStore.highlights.map((highlight) => ({
+      id: highlight.id,
+      title: highlight.name,
+      href: Route.viewHighlight({ id: highlight.id }),
+      alt: highlight.name,
+      src: highlight.thumbnailAssetId
+        ? getAssetMediaUrl({ id: highlight.thumbnailAssetId })
+        : highlight.assets.length > 0
+          ? getAssetMediaUrl({ id: highlight.assets[0].id })
+          : '',
+    })),
+  );
 </script>
 
 <UserPageLayout hideNavbar={assetInteraction.selectionActive} scrollbar={false}>
@@ -113,6 +128,9 @@
   >
     {#if $preferences.memories.enabled}
       <ImageCarousel {items} />
+    {/if}
+    {#if $preferences.highlights.enabled && highlightItems.length > 0}
+      <ImageCarousel items={highlightItems} />
     {/if}
     {#snippet empty()}
       <EmptyPlaceholder text={$t('no_assets_message')} onClick={() => openFileUploadDialog()} class="mt-10 mx-auto" />
