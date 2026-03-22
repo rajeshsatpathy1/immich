@@ -161,6 +161,8 @@ export const endpointTags: Record<ApiTag, string> = {
   [ApiTag.Maintenance]: 'Maintenance mode allows you to put Immich in a read-only state to perform various operations.',
   [ApiTag.Map]:
     'Map endpoints include supplemental functionality related to geolocation, such as reverse geocoding and retrieving map markers for assets with geolocation data.',
+  [ApiTag.Highlights]:
+    'A highlight is a curated collection of best photos selected from a tag, using scoring based on date diversity, people count, quality, and favorites. Highlights can be auto-generated or manually curated.',
   [ApiTag.Memories]:
     'A memory is a specialized collection of assets with dedicated viewing implementations in the web and mobile clients. A memory includes fields related to visibility and are automatically generated per user via a background job.',
   [ApiTag.Notifications]:

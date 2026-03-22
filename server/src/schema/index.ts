@@ -9,6 +9,8 @@ import {
   asset_metadata_audit,
   f_concat_ws,
   f_unaccent,
+  highlight_asset_delete_audit,
+  highlight_delete_audit,
   immich_uuid_v7,
   ll_to_earth_public,
   memory_asset_delete_audit,
@@ -43,6 +45,10 @@ import { AssetTable } from 'src/schema/tables/asset.table';
 import { AuditTable } from 'src/schema/tables/audit.table';
 import { FaceSearchTable } from 'src/schema/tables/face-search.table';
 import { GeodataPlacesTable } from 'src/schema/tables/geodata-places.table';
+import { HighlightAssetAuditTable } from 'src/schema/tables/highlight-asset-audit.table';
+import { HighlightAssetTable } from 'src/schema/tables/highlight-asset.table';
+import { HighlightAuditTable } from 'src/schema/tables/highlight-audit.table';
+import { HighlightTable } from 'src/schema/tables/highlight.table';
 import { LibraryTable } from 'src/schema/tables/library.table';
 import { MemoryAssetAuditTable } from 'src/schema/tables/memory-asset-audit.table';
 import { MemoryAssetTable } from 'src/schema/tables/memory-asset.table';
@@ -102,6 +108,10 @@ export class ImmichDatabase {
     AssetExifTable,
     FaceSearchTable,
     GeodataPlacesTable,
+    HighlightTable,
+    HighlightAuditTable,
+    HighlightAssetTable,
+    HighlightAssetAuditTable,
     LibraryTable,
     MemoryTable,
     MemoryAuditTable,
@@ -153,6 +163,8 @@ export class ImmichDatabase {
     album_user_delete_audit,
     memory_delete_audit,
     memory_asset_delete_audit,
+    highlight_delete_audit,
+    highlight_asset_delete_audit,
     stack_delete_audit,
     person_delete_audit,
     user_metadata_audit,
@@ -202,6 +214,11 @@ export interface DB {
   face_search: FaceSearchTable;
 
   geodata_places: GeodataPlacesTable;
+
+  highlight: HighlightTable;
+  highlight_audit: HighlightAuditTable;
+  highlight_asset: HighlightAssetTable;
+  highlight_asset_audit: HighlightAssetAuditTable;
 
   library: LibraryTable;
 

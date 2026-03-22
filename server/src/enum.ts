@@ -74,6 +74,13 @@ export enum MemoryType {
   OnThisDay = 'on_this_day',
 }
 
+export enum HighlightType {
+  /** User-curated highlight from manually selected photos */
+  Manual = 'manual',
+  /** Auto-curated highlight generated from a tag */
+  Auto = 'auto',
+}
+
 export enum AssetOrderWithRandom {
   // Include existing values
   Asc = AssetOrder.Asc,
@@ -174,6 +181,14 @@ export enum Permission {
 
   MemoryAssetCreate = 'memoryAsset.create',
   MemoryAssetDelete = 'memoryAsset.delete',
+
+  HighlightCreate = 'highlight.create',
+  HighlightRead = 'highlight.read',
+  HighlightUpdate = 'highlight.update',
+  HighlightDelete = 'highlight.delete',
+
+  HighlightAssetCreate = 'highlightAsset.create',
+  HighlightAssetDelete = 'highlightAsset.delete',
 
   NotificationCreate = 'notification.create',
   NotificationRead = 'notification.read',
@@ -367,6 +382,7 @@ export enum ManualJobName {
   UserCleanup = 'user-cleanup',
   MemoryCleanup = 'memory-cleanup',
   MemoryCreate = 'memory-create',
+  HighlightGenerate = 'highlight-generate',
   BackupDatabase = 'backup-database',
 }
 
@@ -621,6 +637,8 @@ export enum JobName {
   MemoryCleanup = 'MemoryCleanup',
   MemoryGenerate = 'MemoryGenerate',
 
+  HighlightGenerate = 'HighlightGenerate',
+
   NotificationsCleanup = 'NotificationsCleanup',
 
   NotifyUserSignup = 'NotifyUserSignup',
@@ -861,6 +879,7 @@ export enum ApiTag {
   Libraries = 'Libraries',
   Maintenance = 'Maintenance (admin)',
   Map = 'Map',
+  Highlights = 'Highlights',
   Memories = 'Memories',
   Notifications = 'Notifications',
   NotificationsAdmin = 'Notifications (admin)',

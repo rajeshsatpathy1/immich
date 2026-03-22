@@ -347,6 +347,9 @@ export type JobItem =
   | { name: JobName.MemoryCleanup; data?: IBaseJob }
   | { name: JobName.MemoryGenerate; data?: IBaseJob }
 
+  // Highlights
+  | { name: JobName.HighlightGenerate; data?: IBaseJob }
+
   // Filesystem
   | { name: JobName.FileDelete; data: IDeleteFilesJob }
 
