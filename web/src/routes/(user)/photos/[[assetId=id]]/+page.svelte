@@ -129,7 +129,7 @@
     {#if $preferences.memories.enabled}
       <ImageCarousel {items} />
     {/if}
-    {#if $preferences.highlights.enabled && highlightItems.length > 0}
+    {#if highlightItems.length > 0}
       <ImageCarousel items={highlightItems} />
     {/if}
     {#snippet empty()}

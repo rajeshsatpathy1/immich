@@ -1228,6 +1228,66 @@ export type FaceDto = {
     /** Face ID */
     id: string;
 };
+export type HighlightResponseDto = {
+    /** Assets in highlight */
+    assets: AssetResponseDto[];
+    /** Creation date */
+    createdAt: string;
+    /** Highlight description */
+    description: string;
+    /** Highlight ID */
+    id: string;
+    /** Is highlight pinned */
+    isPinned: boolean;
+    /** Highlight name */
+    name: string;
+    /** Owner user ID */
+    ownerId: string;
+    /** Source tag ID */
+    sourceTagId: string | null;
+    /** Thumbnail asset ID */
+    thumbnailAssetId: string | null;
+    /** Highlight type */
+    "type": HighlightType;
+    /** Last update date */
+    updatedAt: string;
+};
+export type HighlightCreateDto = {
+    /** Asset IDs to include in highlight */
+    assetIds?: string[];
+    /** Highlight description */
+    description?: string;
+    /** Pin this highlight */
+    isPinned?: boolean;
+    /** Highlight name */
+    name: string;
+    /** Source tag ID for auto-curated highlights */
+    sourceTagId?: string;
+    /** Highlight type */
+    "type": HighlightType;
+};
+export type HighlightGenerateFromAlbumDto = {
+    /** Album ID to generate highlight from */
+    albumId: string;
+    /** Highlight name */
+    name?: string;
+};
+export type HighlightGenerateDto = {
+    /** Highlight name */
+    name?: string;
+    /** Source tag ID to generate highlight from */
+    sourceTagId: string;
+};
+export type HighlightUpdateDto = {
+    /** Highlight description */
+    description?: string;
+    /** Pin this highlight */
+    isPinned?: boolean;
+    /** Highlight name */
+    name?: string;
+    /** Thumbnail asset ID */
+    thumbnailAssetId?: string;
+};
 export type QueueStatisticsDto = {
     /** Number of active jobs */
     active: number;
@@ -4599,6 +4659,140 @@ export function reassignFacesById({ id, faceDto }: {
     })));
 }
 /**
+ * Retrieve highlights
+ */
+export function searchHighlights({ isPinned, $type }: {
+    isPinned?: boolean;
+    $type?: HighlightType;
+}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: HighlightResponseDto[];
+    }>(`/highlights${QS.query(QS.explode({
+        isPinned,
+        "type": $type
+    }))}`, {
+        ...opts
+    }));
+}
+/**
+ * Create a highlight
+ */
+export function createHighlight({ highlightCreateDto }: {
+    highlightCreateDto: HighlightCreateDto;
+}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 201;
+        data: HighlightResponseDto;
+    }>("/highlights", oazapfts.json({
+        ...opts,
+        method: "POST",
+        body: highlightCreateDto
+    })));
+}
+/**
+ * Generate highlight from album
+ */
+export function generateHighlightFromAlbum({ highlightGenerateFromAlbumDto }: {
+    highlightGenerateFromAlbumDto: HighlightGenerateFromAlbumDto;
+}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 201;
+        data: HighlightResponseDto;
+    }>("/highlights/from-album", oazapfts.json({
+        ...opts,
+        method: "POST",
+        body: highlightGenerateFromAlbumDto
+    })));
+}
+/**
+ * Generate highlight from tag
+ */
+export function generateHighlight({ highlightGenerateDto }: {
+    highlightGenerateDto: HighlightGenerateDto;
+}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 201;
+        data: HighlightResponseDto;
+    }>("/highlights/generate", oazapfts.json({
+        ...opts,
+        method: "POST",
+        body: highlightGenerateDto
+    })));
+}
+/**
+ * Delete a highlight
+ */
+export function deleteHighlight({ id }: {
+    id: string;
+}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchText(`/highlights/${encodeURIComponent(id)}`, {
+        ...opts,
+        method: "DELETE"
+    }));
+}
+/**
+ * Retrieve a highlight
+ */
+export function getHighlight({ id }: {
+    id: string;
+}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: HighlightResponseDto;
+    }>(`/highlights/${encodeURIComponent(id)}`, {
+        ...opts
+    }));
+}
+/**
+ * Update a highlight
+ */
+export function updateHighlight({ id, highlightUpdateDto }: {
+    id: string;
+    highlightUpdateDto: HighlightUpdateDto;
+}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: HighlightResponseDto;
+    }>(`/highlights/${encodeURIComponent(id)}`, oazapfts.json({
+        ...opts,
+        method: "PUT",
+        body: highlightUpdateDto
+    })));
+}
+/**
+ * Remove assets from a highlight
+ */
+export function removeHighlightAssets({ id, bulkIdsDto }: {
+    id: string;
+    bulkIdsDto: BulkIdsDto;
+}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: BulkIdResponseDto[];
+    }>(`/highlights/${encodeURIComponent(id)}/assets`, oazapfts.json({
+        ...opts,
+        method: "DELETE",
+        body: bulkIdsDto
+    })));
+}
+/**
+ * Add assets to a highlight
+ */
+export function addHighlightAssets({ id, bulkIdsDto }: {
+    id: string;
+    bulkIdsDto: BulkIdsDto;
+}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: BulkIdResponseDto[];
+    }>(`/highlights/${encodeURIComponent(id)}/assets`, oazapfts.json({
+        ...opts,
+        method: "PUT",
+        body: bulkIdsDto
+    })));
+}
+/**
  * Retrieve queue counts and status
  */
 export function getQueuesLegacy(opts?: Oazapfts.RequestOpts) {
@@ -6971,6 +7165,12 @@ export enum Permission {
     MemoryStatistics = "memory.statistics",
     MemoryAssetCreate = "memoryAsset.create",
     MemoryAssetDelete = "memoryAsset.delete",
+    HighlightCreate = "highlight.create",
+    HighlightRead = "highlight.read",
+    HighlightUpdate = "highlight.update",
+    HighlightDelete = "highlight.delete",
+    HighlightAssetCreate = "highlightAsset.create",
+    HighlightAssetDelete = "highlightAsset.delete",
     NotificationCreate = "notification.create",
     NotificationRead = "notification.read",
     NotificationUpdate = "notification.update",
@@ -7093,12 +7293,17 @@ export enum AssetMediaSize {
     Preview = "preview",
     Thumbnail = "thumbnail"
 }
+export enum HighlightType {
+    Manual = "manual",
+    Auto = "auto"
+}
 export enum ManualJobName {
     PersonCleanup = "person-cleanup",
     TagCleanup = "tag-cleanup",
     UserCleanup = "user-cleanup",
     MemoryCleanup = "memory-cleanup",
     MemoryCreate = "memory-create",
+    HighlightGenerate = "highlight-generate",
     BackupDatabase = "backup-database"
 }
 export enum QueueName {
@@ -7190,6 +7395,7 @@ export enum JobName {
     LibraryScanQueueAll = "LibraryScanQueueAll",
     MemoryCleanup = "MemoryCleanup",
     MemoryGenerate = "MemoryGenerate",
+    HighlightGenerate = "HighlightGenerate",
     NotificationsCleanup = "NotificationsCleanup",
     NotifyUserSignup = "NotifyUserSignup",
     NotifyAlbumInvite = "NotifyAlbumInvite",

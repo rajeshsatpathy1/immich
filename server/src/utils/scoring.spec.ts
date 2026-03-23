@@ -1,4 +1,10 @@
-import { DEFAULT_SCORING_CONFIG, scoreAsset, selectTopAssets, type ScoringAsset, type ScoringConfig } from 'src/utils/scoring';
+import {
+  DEFAULT_SCORING_CONFIG,
+  scoreAsset,
+  selectTopAssets,
+  type ScoringAsset,
+  type ScoringConfig,
+} from 'src/utils/scoring';
 import { describe, expect, it } from 'vitest';
 
 function makeAsset(overrides: Partial<ScoringAsset> & { id: string }): ScoringAsset {
@@ -102,15 +108,11 @@ describe('scoring', () => {
       // Create assets spanning 6 months, clustered in January and June
       const assets = [
         // January cluster (10 assets)
-        ...Array.from({ length: 10 }, (_, i) =>
-          makeAsset({ id: `jan${i}`, fileCreatedAt: new Date(2024, 0, i + 1) }),
-        ),
+        ...Array.from({ length: 10 }, (_, i) => makeAsset({ id: `jan${i}`, fileCreatedAt: new Date(2024, 0, i + 1) })),
         // Isolated March asset
         makeAsset({ id: 'mar1', fileCreatedAt: new Date(2024, 2, 15) }),
         // June cluster (10 assets)
-        ...Array.from({ length: 10 }, (_, i) =>
-          makeAsset({ id: `jun${i}`, fileCreatedAt: new Date(2024, 5, i + 1) }),
-        ),
+        ...Array.from({ length: 10 }, (_, i) => makeAsset({ id: `jun${i}`, fileCreatedAt: new Date(2024, 5, i + 1) })),
       ];
       const config: ScoringConfig = { ...DEFAULT_SCORING_CONFIG, maxPhotos: 5 };
       const result = selectTopAssets(assets, config);

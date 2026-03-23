@@ -20,7 +20,7 @@ services:
       context: ../
       dockerfile: server/Dockerfile
     volumes:
-      - ${UPLOAD_LOCATION}/photos:/data
+      - ${UPLOAD_LOCATION}/library:/data
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env

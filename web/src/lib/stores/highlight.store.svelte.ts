@@ -70,8 +70,11 @@ class HighlightStoreSvelte {
   }
 
   private async load() {
+    console.log('[HighlightStore] Loading highlights from API...');
     const highlights = await searchHighlights({});
+    console.log('[HighlightStore] Loaded', highlights.length, 'highlights');
     this.highlights = highlights.filter((h) => h.assets.length > 0);
+    console.log('[HighlightStore] Filtered to', this.highlights.length, 'highlights with assets');
   }
 }
 
