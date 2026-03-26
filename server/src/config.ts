@@ -187,6 +187,12 @@ export type SystemConfig = {
   user: {
     deleteDelay: number;
   };
+  memories: {
+    enabled: boolean;
+  };
+  highlights: {
+    enabled: boolean;
+  };
 };
 
 export type MachineLearningConfig = SystemConfig['machineLearning'];
@@ -392,5 +398,11 @@ export const defaults = Object.freeze<SystemConfig>({
   },
   user: {
     deleteDelay: 7,
+  },
+  memories: {
+    enabled: true,
+  },
+  highlights: {
+    enabled: true,
   },
 });

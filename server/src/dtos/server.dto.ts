@@ -236,6 +236,10 @@ export class ServerFeaturesDto {
   email!: boolean;
   @ApiProperty({ description: 'Whether OCR is enabled' })
   ocr!: boolean;
+  @ApiProperty({ description: 'Whether memories feature is enabled' })
+  memories!: boolean;
+  @ApiProperty({ description: 'Whether highlights feature is enabled' })
+  highlights!: boolean;
 }
 
 export interface ReleaseNotification {

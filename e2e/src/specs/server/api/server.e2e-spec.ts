@@ -119,6 +119,8 @@ describe('/server', () => {
         sidecar: true,
         trash: true,
         email: false,
+        memories: true,
+        highlights: true,
       });
     });
   });

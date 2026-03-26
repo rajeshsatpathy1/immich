@@ -5599,6 +5599,16 @@
             }
           },
           {
+            "name": "size",
+            "required": false,
+            "in": "query",
+            "description": "Number of highlights to return",
+            "schema": {
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
             "name": "type",
             "required": false,
             "in": "query",
@@ -5645,11 +5655,11 @@
           },
           {
             "version": "v2.6.0",
-            "state": "Stable"
+            "state": "Beta"
           }
         ],
         "x-immich-permission": "highlight.read",
-        "x-immich-state": "Stable"
+        "x-immich-state": "Beta"
       },
       "post": {
         "description": "Create a new highlight, either manual or auto-curated from a tag.",
@@ -5699,11 +5709,11 @@
           },
           {
             "version": "v2.6.0",
-            "state": "Stable"
+            "state": "Beta"
           }
         ],
         "x-immich-permission": "highlight.create",
-        "x-immich-state": "Stable"
+        "x-immich-state": "Beta"
       }
     },
     "/highlights/from-album": {
@@ -5755,11 +5765,11 @@
           },
           {
             "version": "v2.6.0",
-            "state": "Stable"
+            "state": "Beta"
           }
         ],
         "x-immich-permission": "highlight.create",
-        "x-immich-state": "Stable"
+        "x-immich-state": "Beta"
       }
     },
     "/highlights/generate": {
@@ -5811,11 +5821,11 @@
           },
           {
             "version": "v2.6.0",
-            "state": "Stable"
+            "state": "Beta"
           }
         ],
         "x-immich-permission": "highlight.create",
-        "x-immich-state": "Stable"
+        "x-immich-state": "Beta"
       }
     },
     "/highlights/{id}": {
@@ -5860,11 +5870,11 @@
           },
           {
             "version": "v2.6.0",
-            "state": "Stable"
+            "state": "Beta"
           }
         ],
         "x-immich-permission": "highlight.delete",
-        "x-immich-state": "Stable"
+        "x-immich-state": "Beta"
       },
       "get": {
         "description": "Retrieve a specific highlight by its ID.",
@@ -5914,11 +5924,11 @@
           },
           {
             "version": "v2.6.0",
-            "state": "Stable"
+            "state": "Beta"
           }
         ],
         "x-immich-permission": "highlight.read",
-        "x-immich-state": "Stable"
+        "x-immich-state": "Beta"
       },
       "put": {
         "description": "Update an existing highlight by its ID.",
@@ -5978,11 +5988,11 @@
           },
           {
             "version": "v2.6.0",
-            "state": "Stable"
+            "state": "Beta"
           }
         ],
         "x-immich-permission": "highlight.update",
-        "x-immich-state": "Stable"
+        "x-immich-state": "Beta"
       }
     },
     "/highlights/{id}/assets": {
@@ -6047,13 +6057,13 @@
           },
           {
             "version": "v2.6.0",
-            "state": "Stable"
+            "state": "Beta"
           }
         ],
         "x-immich-permission": "highlightAsset.delete",
-        "x-immich-state": "Stable"
+        "x-immich-state": "Beta"
       },
-      "put": {
+      "post": {
         "description": "Add a list of asset IDs to a specific highlight.",
         "operationId": "addHighlightAssets",
         "parameters": [
@@ -6078,7 +6088,7 @@
           "required": true
         },
         "responses": {
-          "200": {
+          "201": {
             "content": {
               "application/json": {
                 "schema": {
@@ -6114,11 +6124,11 @@
           },
           {
             "version": "v2.6.0",
-            "state": "Stable"
+            "state": "Beta"
           }
         ],
         "x-immich-permission": "highlightAsset.create",
-        "x-immich-state": "Stable"
+        "x-immich-state": "Beta"
       }
     },
     "/jobs": {
@@ -18841,6 +18851,28 @@
         },
         "type": "object"
       },
+      "HighlightsResponse": {
+        "properties": {
+          "enabled": {
+            "default": true,
+            "description": "Whether highlights are enabled",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled"
+        ],
+        "type": "object"
+      },
+      "HighlightsUpdate": {
+        "properties": {
+          "enabled": {
+            "description": "Whether highlights are enabled",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
       "ImageFormat": {
         "description": "Image format",
         "enum": [
@@ -22062,12 +22094,20 @@
             "description": "Whether facial recognition is enabled",
             "type": "boolean"
           },
+          "highlights": {
+            "description": "Whether highlights feature is enabled",
+            "type": "boolean"
+          },
           "importFaces": {
             "description": "Whether face import is enabled",
             "type": "boolean"
           },
           "map": {
             "description": "Whether map feature is enabled",
+            "type": "boolean"
+          },
+          "memories": {
+            "description": "Whether memories feature is enabled",
             "type": "boolean"
           },
           "oauth": {
@@ -22112,8 +22152,10 @@
           "duplicateDetection",
           "email",
           "facialRecognition",
+          "highlights",
           "importFaces",
           "map",
+          "memories",
           "oauth",
           "oauthAutoLaunch",
           "ocr",
@@ -26471,6 +26513,9 @@
           "folders": {
             "$ref": "#/components/schemas/FoldersResponse"
           },
+          "highlights": {
+            "$ref": "#/components/schemas/HighlightsResponse"
+          },
           "memories": {
             "$ref": "#/components/schemas/MemoriesResponse"
           },
@@ -26496,6 +26541,7 @@
           "download",
           "emailNotifications",
           "folders",
+          "highlights",
           "memories",
           "people",
           "purchase",
@@ -26524,6 +26570,9 @@
           },
           "folders": {
             "$ref": "#/components/schemas/FoldersUpdate"
+          },
+          "highlights": {
+            "$ref": "#/components/schemas/HighlightsUpdate"
           },
           "memories": {
             "$ref": "#/components/schemas/MemoriesUpdate"

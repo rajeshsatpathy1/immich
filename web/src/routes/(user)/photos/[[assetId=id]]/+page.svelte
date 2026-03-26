@@ -21,6 +21,7 @@
   import Timeline from '$lib/components/timeline/Timeline.svelte';
   import { AssetAction } from '$lib/constants';
   import { TimelineManager } from '$lib/managers/timeline-manager/timeline-manager.svelte';
+  import { featureFlagsManager } from '$lib/managers/feature-flags-manager.svelte';
   import { Route } from '$lib/route';
   import { getAssetBulkActions } from '$lib/services/asset.service';
   import { AssetInteraction } from '$lib/stores/asset-interaction.svelte';
@@ -126,10 +127,10 @@
     onEscape={handleEscape}
     withStacked
   >
-    {#if $preferences.memories.enabled}
+    {#if featureFlagsManager.value.memories && $preferences.memories.enabled}
       <ImageCarousel {items} />
     {/if}
-    {#if highlightItems.length > 0}
+    {#if featureFlagsManager.value.highlights && highlightItems.length > 0}
       <ImageCarousel items={highlightItems} />
     {/if}
     {#snippet empty()}

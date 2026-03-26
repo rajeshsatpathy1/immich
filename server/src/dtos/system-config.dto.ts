@@ -710,6 +710,16 @@ class SystemConfigUserDto {
   deleteDelay!: number;
 }
 
+class SystemConfigMemoriesDto {
+  @ValidateBoolean({ description: 'Enabled' })
+  enabled!: boolean;
+}
+
+class SystemConfigHighlightsDto {
+  @ValidateBoolean({ description: 'Enabled' })
+  enabled!: boolean;
+}
+
 export class SystemConfigDto implements SystemConfig {
   // Description lives on schema to avoid duplication
   @ApiProperty({ description: undefined })
@@ -857,6 +867,20 @@ export class SystemConfigDto implements SystemConfig {
   @ValidateNested()
   @IsObject()
   user!: SystemConfigUserDto;
+
+  // Description lives on schema to avoid duplication
+  @ApiProperty({ description: undefined })
+  @Type(() => SystemConfigMemoriesDto)
+  @ValidateNested()
+  @IsObject()
+  memories!: SystemConfigMemoriesDto;
+
+  // Description lives on schema to avoid duplication
+  @ApiProperty({ description: undefined })
+  @Type(() => SystemConfigHighlightsDto)
+  @ValidateNested()
+  @IsObject()
+  highlights!: SystemConfigHighlightsDto;
 }
 
 export function mapConfig(config: SystemConfig): SystemConfigDto {
