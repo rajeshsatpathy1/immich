@@ -41,8 +41,10 @@
   import { getAltText } from '$lib/utils/thumbnail-util';
   import { toTimelineAsset } from '$lib/utils/timeline-util';
   import { AssetVisibility } from '@immich/sdk';
-  import { ActionButton, CommandPaletteDefaultProvider, ImageCarousel } from '@immich/ui';
-  import { mdiDotsVertical } from '@mdi/js';
+  import { ActionButton, CommandPaletteDefaultProvider, Icon, ImageCarousel } from '@immich/ui';
+  import { mdiChevronRight, mdiDotsVertical } from '@mdi/js';
+  import { slide } from 'svelte/transition';
+  import { persisted } from 'svelte-persisted-store';
   import { t } from 'svelte-i18n';
 
   let { isViewing: showAssetViewer } = assetViewingStore;
@@ -115,6 +117,9 @@
           : '',
     })),
   );
+
+  const memoriesCollapsed = persisted('photos-memories-collapsed', false);
+  const highlightsCollapsed = persisted('photos-highlights-collapsed', false);
 </script>
 
 <UserPageLayout hideNavbar={assetInteraction.selectionActive} scrollbar={false}>
@@ -128,10 +133,50 @@
     withStacked
   >
     {#if featureFlagsManager.value.memories && $preferences.memories.enabled}
-      <ImageCarousel {items} />
+      <div>
+        <button
+          type="button"
+          onclick={() => memoriesCollapsed.update((v) => !v)}
+          class="w-full text-start mt-2 pt-2 pe-2 pb-2 rounded-md transition-colors cursor-pointer dark:text-immich-dark-fg hover:text-primary hover:bg-subtle dark:hover:bg-immich-dark-gray"
+          aria-expanded={!$memoriesCollapsed}
+        >
+          <Icon
+            icon={mdiChevronRight}
+            size="24"
+            class="inline-block -mt-2.5 transition-all duration-250 {$memoriesCollapsed ? 'rotate-0' : 'rotate-90'}"
+          />
+          <span class="font-bold text-3xl text-black dark:text-white">{$t('memories')}</span>
+        </button>
+        <hr class="dark:border-immich-dark-gray" />
+        {#if !$memoriesCollapsed}
+          <div transition:slide={{ duration: 300 }}>
+            <ImageCarousel {items} />
+          </div>
+        {/if}
+      </div>
     {/if}
     {#if featureFlagsManager.value.highlights && highlightItems.length > 0}
-      <ImageCarousel items={highlightItems} />
+      <div>
+        <button
+          type="button"
+          onclick={() => highlightsCollapsed.update((v) => !v)}
+          class="w-full text-start mt-2 pt-2 pe-2 pb-2 rounded-md transition-colors cursor-pointer dark:text-immich-dark-fg hover:text-primary hover:bg-subtle dark:hover:bg-immich-dark-gray"
+          aria-expanded={!$highlightsCollapsed}
+        >
+          <Icon
+            icon={mdiChevronRight}
+            size="24"
+            class="inline-block -mt-2.5 transition-all duration-250 {$highlightsCollapsed ? 'rotate-0' : 'rotate-90'}"
+          />
+          <span class="font-bold text-3xl text-black dark:text-white">{$t('highlights')}</span>
+        </button>
+        <hr class="dark:border-immich-dark-gray" />
+        {#if !$highlightsCollapsed}
+          <div transition:slide={{ duration: 300 }}>
+            <ImageCarousel items={highlightItems} />
+          </div>
+        {/if}
+      </div>
     {/if}
     {#snippet empty()}
       <EmptyPlaceholder text={$t('no_assets_message')} onClick={() => openFileUploadDialog()} class="mt-10 mx-auto" />

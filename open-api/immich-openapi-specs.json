@@ -24607,6 +24607,9 @@
           "ffmpeg": {
             "$ref": "#/components/schemas/SystemConfigFFmpegDto"
           },
+          "highlights": {
+            "$ref": "#/components/schemas/SystemConfigHighlightsDto"
+          },
           "image": {
             "$ref": "#/components/schemas/SystemConfigImageDto"
           },
@@ -24624,6 +24627,9 @@
           },
           "map": {
             "$ref": "#/components/schemas/SystemConfigMapDto"
+          },
+          "memories": {
+            "$ref": "#/components/schemas/SystemConfigMemoriesDto"
           },
           "metadata": {
             "$ref": "#/components/schemas/SystemConfigMetadataDto"
@@ -24668,12 +24674,14 @@
         "required": [
           "backup",
           "ffmpeg",
+          "highlights",
           "image",
           "job",
           "library",
           "logging",
           "machineLearning",
           "map",
+          "memories",
           "metadata",
           "newVersionCheck",
           "nightlyTasks",
@@ -24921,6 +24929,18 @@
         ],
         "type": "object"
       },
+      "SystemConfigHighlightsDto": {
+        "properties": {
+          "enabled": {
+            "description": "Enabled",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled"
+        ],
+        "type": "object"
+      },
       "SystemConfigImageDto": {
         "properties": {
           "colorspace": {
@@ -25141,6 +25161,18 @@
           "darkStyle",
           "enabled",
           "lightStyle"
+        ],
+        "type": "object"
+      },
+      "SystemConfigMemoriesDto": {
+        "properties": {
+          "enabled": {
+            "description": "Enabled",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled"
         ],
         "type": "object"
       },
