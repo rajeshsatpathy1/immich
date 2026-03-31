@@ -5,6 +5,7 @@
 **Purpose:** Conditionally enable/disable memories and highlights features independently for controlled rollout and A/B testing.
 
 **Reasoning:**
+
 - Allows gradual feature rollout to users without full deployment
 - Enables quick rollback if issues are discovered in production
 - Supports A/B testing to measure feature adoption and user engagement
@@ -12,6 +13,7 @@
 - Standard practice for modern feature management in large-scale applications
 
 **Implementation Notes:**
+
 - Create feature flag entries in the database or configuration management system
 - Add flag checks at the UI layer to conditionally render components
 - Ensure flags are evaluated on both client and server sides as needed
@@ -24,6 +26,7 @@
 **Purpose:** Visually distinguish between memories and highlights sections with persistent section headers visible in scrollbar timeline.
 
 **Reasoning:**
+
 - Improves visual hierarchy and content organization
 - Users can quickly identify which section they're in when scrolling
 - Timeline/scrollbar integration provides navigation context at a glance
@@ -31,6 +34,7 @@
 - Creates natural content segments for better UX flow
 
 **Implementation Notes:**
+
 - Design sticky/persistent headers for both sections
 - Integrate with scrollbar indicator/timeline for visual position tracking
 - Ensure headers remain accessible and non-intrusive
@@ -43,6 +47,7 @@
 **Purpose:** Allow users to collapse/expand memories and highlights sections to reduce visual clutter and focus on specific content.
 
 **Reasoning:**
+
 - Users may not always want to see all sections simultaneously
 - Saves vertical scrolling space and improves page layout efficiency
 - Preserves user preference for expanded/collapsed state
@@ -50,6 +55,7 @@
 - Reduces initial page load perception (less content to render initially)
 
 **Implementation Notes:**
+
 - Use standard accordion/collapse components
 - Persist collapse state in local storage or user preferences database
 - Include smooth animations for expand/collapse transitions
@@ -63,6 +69,7 @@
 **Purpose:** Enable users to browse and remove individual highlights they don't want to keep.
 
 **Reasoning:**
+
 - Gives users control over their generated content
 - Allows removal of low-quality or irrelevant highlights
 - Reduces clutter from unwanted auto-generated content
@@ -70,6 +77,7 @@
 - Improves user satisfaction by enabling content curation
 
 **Implementation Notes:**
+
 - Add checkbox or selection mechanism for highlights
 - Implement bulk delete action (delete button, context menu, etc.)
 - Include confirmation dialog before permanent deletion
@@ -83,6 +91,7 @@
 **Purpose:** Provide an interactive carousel interface for browsing highlights similar to the existing memories carousel.
 
 **Reasoning:**
+
 - Maintains UI/UX consistency across similar features
 - Carousel view is ideal for browsing image galleries sequentially
 - Users are already familiar with memories carousel behavior
@@ -90,6 +99,7 @@
 - Reuses existing carousel component code for maintainability
 
 **Implementation Notes:**
+
 - Adapt existing memories carousel component for highlights
 - Include navigation controls (previous, next, indicators)
 - Add transition animations between slides
@@ -104,6 +114,7 @@
 **Purpose:** Develop a sophisticated method to identify and select the highest-quality images from an album for highlight generation.
 
 **Reasoning:**
+
 - Current scoring may include irrelevant or low-quality images
 - Better selection improves feature quality and user satisfaction
 - Users are more likely to engage with naturally appealing highlights
@@ -111,6 +122,7 @@
 - Creates better first impression of the feature
 
 **Evaluation Metrics to Consider:**
+
 - **Sharpness/Clarity:** Use blur detection and edge analysis
 - **Brightness/Exposure:** Prefer well-lit images over under/over-exposed
 - **Composition:** Implement rule-of-thirds, rule-of-odds detection
@@ -122,6 +134,7 @@
 - **ML Features:** Leverage existing ML pipeline (face detection, object recognition)
 
 **Implementation Notes:**
+
 - Consider multi-factor scoring system with weighted criteria
 - Profile performance impact of scoring algorithm
 - Allow algorithm tuning/calibration based on user feedback
@@ -135,6 +148,7 @@
 **Purpose:** Allow users to generate highlights from specific time periods (full years or months) rather than fixed-size album windows.
 
 **Reasoning:**
+
 - Users naturally think about photos in time-based units (holidays, yearly summaries, monthly recaps)
 - Matches major photo service features (Google Photos "This Year," annual highlights)
 - Provides flexibility for different use cases and time scales
@@ -142,6 +156,7 @@
 - Supports common scenarios: anniversary highlights, seasonal reviews, yearly recaps
 
 **Implementation Notes:**
+
 - Create UI selector for year/month/date-range selection
 - Modify highlight generation algorithm to accept date-range parameters
 - Handle edge cases (partial years, single-month edge cases)
@@ -152,6 +167,7 @@
 - Cache results for frequently selected periods (e.g., last year)
 
 **User Flow:**
+
 1. User navigates to highlights generation
 2. Selects year/month(s) or custom date range
 3. System shows preview of images in selection
@@ -163,18 +179,22 @@
 ## Priority/Sequencing Recommendations
 
 **Phase 1 (Foundation):**
+
 - Task 1: Feature flags (enables all following work)
 - Task 2: Section headers (basic organization)
 
 **Phase 2 (Core Features):**
+
 - Task 3: Collapsible sections (improves UX)
 - Task 4: Highlight deletion (user control)
 
 **Phase 3 (Enhanced Experience):**
+
 - Task 5: Carousel view (consistency, engagement)
 - Task 6: Better scoring (quality improvement)
 
 **Phase 4 (Advanced Features):**
+
 - Task 7: Time-based selection (flexibility and user empowerment)
 
 ---
@@ -187,3 +207,9 @@
 - Performance testing for large album selections
 - ML model accuracy validation for improved scoring
 - User acceptance testing for carousel controls and deletion flow
+
+## Commands:
+
+`$env:COMPOSE_BAKE = 'true'; docker compose -f ./docker/docker-compose.dev.yml up --remove-orphans`
+
+`Start-Sleep -Seconds 8; docker compose -f "d:\TAMU_docs\5th_and_beyond\Projects\Google-Photos-Alt\immich\docker\docker-compose.dev.yml" ps`
