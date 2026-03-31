@@ -11,6 +11,7 @@ export const load = (async ({ params, url }) => {
   return {
     user,
     highlight,
+    assetId: params.assetId,
     meta: {
       title: highlight.name || $t('highlights'),
     },
