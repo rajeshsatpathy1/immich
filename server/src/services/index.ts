@@ -1,4 +1,5 @@
 import { ActivityService } from 'src/services/activity.service';
+import { AestheticScoreService } from 'src/services/aesthetic-score.service';
 import { AlbumService } from 'src/services/album.service';
 import { ApiKeyService } from 'src/services/api-key.service';
 import { ApiService } from 'src/services/api.service';
@@ -49,6 +50,7 @@ import { ViewService } from 'src/services/view.service';
 import { WorkflowService } from 'src/services/workflow.service';
 
 export const services = [
+  AestheticScoreService,
   ApiKeyService,
   ActivityService,
   AlbumService,

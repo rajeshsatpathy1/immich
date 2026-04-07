@@ -61,6 +61,7 @@ export class HighlightService extends BaseService {
       isFavorite: asset.isFavorite,
       width: asset.width ?? undefined,
       height: asset.height ?? undefined,
+      aestheticScore: asset.aestheticScore ?? undefined,
     }));
 
     const config: ScoringConfig = { ...DEFAULT_SCORING_CONFIG };
@@ -209,6 +210,7 @@ export class HighlightService extends BaseService {
       isFavorite: asset.isFavorite,
       width: asset.width ?? undefined,
       height: asset.height ?? undefined,
+      aestheticScore: asset.aestheticScore ?? undefined,
     }));
 
     const topAssets = selectTopAssets(scoringAssets, config);

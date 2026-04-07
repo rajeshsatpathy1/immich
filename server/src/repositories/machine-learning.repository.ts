@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Duration } from 'luxon';
 import { readFile } from 'node:fs/promises';
 import { MachineLearningConfig } from 'src/config';
-import { CLIPConfig } from 'src/dtos/model-config.dto';
+import { AestheticConfig, CLIPConfig } from 'src/dtos/model-config.dto';
 import { LoggingRepository } from 'src/repositories/logging.repository';
 
 export interface BoundingBox {
@@ -16,12 +16,14 @@ export enum ModelTask {
   FACIAL_RECOGNITION = 'facial-recognition',
   SEARCH = 'clip',
   OCR = 'ocr',
+  AESTHETIC = 'aesthetic',
 }
 
 export enum ModelType {
   DETECTION = 'detection',
   PIPELINE = 'pipeline',
   RECOGNITION = 'recognition',
+  SCORING = 'scoring',
   TEXTUAL = 'textual',
   VISUAL = 'visual',
   OCR = 'ocr',
@@ -74,7 +76,16 @@ export interface Face {
 
 export type FacialRecognitionResponse = { [ModelTask.FACIAL_RECOGNITION]: Face[] } & VisualResponse;
 export type DetectedFaces = { faces: Face[] } & VisualResponse;
-export type MachineLearningRequest = ClipVisualRequest | ClipTextualRequest | FacialRecognitionRequest | OcrRequest;
+
+export type AestheticRequest = { [ModelTask.AESTHETIC]: { [ModelType.SCORING]: ModelOptions } };
+export type AestheticResponse = { [ModelTask.AESTHETIC]: number };
+
+export type MachineLearningRequest =
+  | ClipVisualRequest
+  | ClipTextualRequest
+  | FacialRecognitionRequest
+  | OcrRequest
+  | AestheticRequest;
 export type TextEncodingOptions = ModelOptions & { language?: string };
 
 @Injectable()
@@ -210,6 +221,12 @@ export class MachineLearningRepository {
     const request = { [ModelTask.SEARCH]: { [ModelType.VISUAL]: { modelName } } };
     const response = await this.predict<ClipVisualResponse>({ imagePath }, request);
     return response[ModelTask.SEARCH];
+  }
+
+  async scoreAesthetic(imagePath: string, { modelName }: AestheticConfig): Promise<number> {
+    const request = { [ModelTask.AESTHETIC]: { [ModelType.SCORING]: { modelName } } };
+    const response = await this.predict<AestheticResponse>({ imagePath }, request);
+    return response[ModelTask.AESTHETIC];
   }
 
   async encodeText(text: string, { language, modelName }: TextEncodingOptions) {

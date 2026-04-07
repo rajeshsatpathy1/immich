@@ -15,7 +15,13 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { SystemConfig } from 'src/config';
-import { CLIPConfig, DuplicateDetectionConfig, FacialRecognitionConfig, OcrConfig } from 'src/dtos/model-config.dto';
+import {
+  AestheticConfig,
+  CLIPConfig,
+  DuplicateDetectionConfig,
+  FacialRecognitionConfig,
+  OcrConfig,
+} from 'src/dtos/model-config.dto';
 import {
   AudioCodec,
   CQMode,
@@ -256,6 +262,12 @@ class SystemConfigJobDto implements Record<ConcurrentQueueName, JobSettingsDto> 
   @IsObject()
   @Type(() => JobSettingsDto)
   [QueueName.Editor]!: JobSettingsDto;
+
+  @ApiProperty({ type: JobSettingsDto, description: undefined })
+  @ValidateNested()
+  @IsObject()
+  @Type(() => JobSettingsDto)
+  [QueueName.AestheticScore]!: JobSettingsDto;
 }
 
 class SystemConfigLibraryScanDto {
@@ -339,6 +351,11 @@ class SystemConfigMachineLearningDto {
   @ValidateNested()
   @IsObject()
   ocr!: OcrConfig;
+
+  @Type(() => AestheticConfig)
+  @ValidateNested()
+  @IsObject()
+  aesthetic!: AestheticConfig;
 }
 
 enum MapTheme {

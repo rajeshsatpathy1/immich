@@ -86,6 +86,10 @@
     [QueueName.Migration]: {
       missingText: $t('start'),
     },
+    [QueueName.AestheticScore]: {
+      allText: $t('all'),
+      missingText: $t('missing'),
+    },
   };
 
   let queueList = Object.entries(queueDetails) as [QueueName, QueueDetails][];

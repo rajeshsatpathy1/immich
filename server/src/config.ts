@@ -81,6 +81,10 @@ export type SystemConfig = {
       minRecognitionScore: number;
       maxResolution: number;
     };
+    aesthetic: {
+      enabled: boolean;
+      modelName: string;
+    };
   };
   map: {
     enabled: boolean;
@@ -243,6 +247,7 @@ export const defaults = Object.freeze<SystemConfig>({
     [QueueName.Ocr]: { concurrency: 1 },
     [QueueName.Workflow]: { concurrency: 5 },
     [QueueName.Editor]: { concurrency: 2 },
+    [QueueName.AestheticScore]: { concurrency: 2 },
   },
   logging: {
     enabled: true,
@@ -277,6 +282,10 @@ export const defaults = Object.freeze<SystemConfig>({
       minDetectionScore: 0.5,
       minRecognitionScore: 0.8,
       maxResolution: 736,
+    },
+    aesthetic: {
+      enabled: false,
+      modelName: 'aesthetic-predictor-v2-5',
     },
   },
   map: {

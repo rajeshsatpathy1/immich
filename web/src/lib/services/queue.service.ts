@@ -33,6 +33,7 @@ import {
   mdiPencil,
   mdiPlay,
   mdiPlus,
+  mdiStarOutline,
   mdiStateMachine,
   mdiTable,
   mdiTagFaces,
@@ -246,6 +247,11 @@ export const asQueueItem = ($t: MessageFormatter, queue: { name: QueueName }): Q
     [QueueName.Editor]: {
       icon: mdiPencil,
       title: $t('editor'),
+    },
+    [QueueName.AestheticScore]: {
+      icon: mdiStarOutline,
+      title: 'Aesthetic Scoring',
+      subtitle: 'Score images with the LAION aesthetic predictor',
     },
   };
 

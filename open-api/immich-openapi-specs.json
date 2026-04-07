@@ -16103,6 +16103,23 @@
         ],
         "type": "object"
       },
+      "AestheticConfig": {
+        "properties": {
+          "enabled": {
+            "description": "Whether the task is enabled",
+            "type": "boolean"
+          },
+          "modelName": {
+            "description": "Name of the model to use",
+            "type": "string"
+          }
+        },
+        "required": [
+          "enabled",
+          "modelName"
+        ],
+        "type": "object"
+      },
       "AlbumResponseDto": {
         "properties": {
           "albumName": {
@@ -17489,6 +17506,11 @@
       },
       "AssetResponseDto": {
         "properties": {
+          "aestheticScore": {
+            "description": "LAION aesthetic score (0-10)",
+            "nullable": true,
+            "type": "number"
+          },
           "checksum": {
             "description": "Base64 encoded SHA1 hash",
             "type": "string"
@@ -18950,6 +18972,8 @@
           "SidecarWrite",
           "SmartSearchQueueAll",
           "SmartSearch",
+          "AestheticScoreQueueAll",
+          "AestheticScore",
           "StorageTemplateMigration",
           "StorageTemplateMigrationSingle",
           "TagCleanup",
@@ -21258,6 +21282,7 @@
           "facialRecognition",
           "smartSearch",
           "duplicateDetection",
+          "aestheticScore",
           "backgroundTask",
           "storageTemplateMigration",
           "migration",
@@ -21377,6 +21402,9 @@
       },
       "QueuesResponseLegacyDto": {
         "properties": {
+          "aestheticScore": {
+            "$ref": "#/components/schemas/QueueResponseLegacyDto"
+          },
           "backgroundTask": {
             "$ref": "#/components/schemas/QueueResponseLegacyDto"
           },
@@ -21433,6 +21461,7 @@
           }
         },
         "required": [
+          "aestheticScore",
           "backgroundTask",
           "backupDatabase",
           "duplicateDetection",
@@ -24976,6 +25005,9 @@
       },
       "SystemConfigJobDto": {
         "properties": {
+          "aestheticScore": {
+            "$ref": "#/components/schemas/JobSettingsDto"
+          },
           "backgroundTask": {
             "$ref": "#/components/schemas/JobSettingsDto"
           },
@@ -25020,6 +25052,7 @@
           }
         },
         "required": [
+          "aestheticScore",
           "backgroundTask",
           "editor",
           "faceDetection",
@@ -25102,6 +25135,9 @@
       },
       "SystemConfigMachineLearningDto": {
         "properties": {
+          "aesthetic": {
+            "$ref": "#/components/schemas/AestheticConfig"
+          },
           "availabilityChecks": {
             "$ref": "#/components/schemas/MachineLearningAvailabilityChecksDto"
           },
@@ -25132,6 +25168,7 @@
           }
         },
         "required": [
+          "aesthetic",
           "availabilityChecks",
           "clip",
           "duplicateDetection",

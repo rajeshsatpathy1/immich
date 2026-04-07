@@ -185,6 +185,21 @@
   <DetailPanelDescription {asset} {isOwner} />
   <DetailPanelRating {asset} {isOwner} />
 
+  {#if asset.aestheticScore != null}
+    <section class="px-4 pt-2 pb-4 text-sm">
+      <Text size="small" color="muted">Aesthetic Score</Text>
+      <div class="mt-1 flex items-center gap-3">
+        <div class="h-2 flex-1 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+          <div
+            class="h-full rounded-full bg-primary"
+            style="width: {(asset.aestheticScore / 10) * 100}%"
+          ></div>
+        </div>
+        <span class="shrink-0 font-medium">{asset.aestheticScore.toFixed(2)} / 10</span>
+      </div>
+    </section>
+  {/if}
+
   {#if !authManager.isSharedLink && isOwner}
     <section class="px-4 pt-4 text-sm">
       <div class="flex h-10 w-full items-center justify-between">

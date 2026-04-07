@@ -337,6 +337,10 @@ export type JobItem =
   // Smart Search
   | { name: JobName.SmartSearchQueueAll; data: IBaseJob }
   | { name: JobName.SmartSearch; data: IEntityJob }
+
+  // Aesthetic Scoring
+  | { name: JobName.AestheticScoreQueueAll; data: IBaseJob }
+  | { name: JobName.AestheticScore; data: IEntityJob }
   | { name: JobName.AssetEmptyTrash; data?: IBaseJob }
 
   // Duplicate Detection

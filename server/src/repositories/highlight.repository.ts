@@ -132,6 +132,8 @@ export class HighlightRepository implements IBulkAsset {
     return this.db
       .selectFrom('asset')
       .selectAll('asset')
+      .leftJoin('asset_aesthetic_score', 'asset_aesthetic_score.assetId', 'asset.id')
+      .select('asset_aesthetic_score.score as aestheticScore')
       .innerJoin('tag_asset', 'asset.id', 'tag_asset.assetId')
       .where('tag_asset.tagId', '=', tagId)
       .where('asset.visibility', '=', sql.lit(AssetVisibility.Timeline))
@@ -144,6 +146,8 @@ export class HighlightRepository implements IBulkAsset {
     return this.db
       .selectFrom('asset')
       .selectAll('asset')
+      .leftJoin('asset_aesthetic_score', 'asset_aesthetic_score.assetId', 'asset.id')
+      .select('asset_aesthetic_score.score as aestheticScore')
       .innerJoin('album_asset', 'asset.id', 'album_asset.assetId')
       .where('album_asset.albumId', '=', albumId)
       .where('asset.visibility', '=', sql.lit(AssetVisibility.Timeline))

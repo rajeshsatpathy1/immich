@@ -7,13 +7,13 @@
   import { Route } from '$lib/route';
   import { highlightStore } from '$lib/stores/highlight.store.svelte';
   import { preferences } from '$lib/stores/user.store';
-  import { getAssetMediaUrl, handlePromiseError } from '$lib/utils';
+  import { getAssetMediaUrl, getAssetPlaybackUrl, handlePromiseError } from '$lib/utils';
   import { AssetMediaSize, AssetTypeEnum, deleteHighlight, type HighlightResponseDto } from '@immich/sdk';
   import { IconButton, toastManager } from '@immich/ui';
   import { mdiChevronLeft, mdiChevronRight, mdiDelete, mdiPause, mdiPlay } from '@mdi/js';
   import { t } from 'svelte-i18n';
-  import { fade } from 'svelte/transition';
   import { Tween } from 'svelte/motion';
+  import { fade } from 'svelte/transition';
 
   interface Props {
     highlight: HighlightResponseDto;
@@ -25,7 +25,12 @@
   const assets = $derived(highlight.assets);
 
   let currentIndex = $state(
-    initialAssetId ? Math.max(0, assets.findIndex((a) => a.id === initialAssetId)) : 0,
+    initialAssetId
+      ? Math.max(
+          0,
+          assets.findIndex((a) => a.id === initialAssetId),
+        )
+      : 0,
   );
 
   const currentAsset = $derived(assets[currentIndex]);
@@ -34,6 +39,17 @@
 
   let imageLoaded = $state(false);
   let paused = $state(false);
+  let videoPlayer = $state<HTMLVideoElement | undefined>();
+
+  // Sync pause state to the video element when it exists
+  $effect(() => {
+    if (!videoPlayer) return;
+    if (paused) {
+      videoPlayer.pause();
+    } else if (videoPlayer.paused) {
+      handlePromiseError(videoPlayer.play());
+    }
+  });
 
   // Progress tween: 0 → 1 over the configured memories duration (reuses same setting)
   let progress = new Tween<number>(0, {
@@ -127,83 +143,83 @@
   <!-- App bar wrapper: h-20 takes up flex space, z-10 keeps it above the content div -->
   <div class="relative z-10 h-20 shrink-0">
     <ControlAppBar onClose={() => goto(Route.photos())} forceDark multiRow>
-    {#snippet leading()}
-      <p class="text-lg text-white truncate">{highlight.name}</p>
-    {/snippet}
+      {#snippet leading()}
+        <p class="text-lg text-white truncate">{highlight.name}</p>
+      {/snippet}
 
-    <!-- Centre: progress bars + play/pause + counter — same layout as memory viewer -->
-    <div class="flex place-content-center place-items-center gap-2 overflow-hidden w-full dark">
-      <div class="w-12.5">
+      <!-- Centre: progress bars + play/pause + counter — same layout as memory viewer -->
+      <div class="flex place-content-center place-items-center gap-2 overflow-hidden w-full dark">
+        <div class="w-12.5">
+          <IconButton
+            shape="round"
+            variant="ghost"
+            color="secondary"
+            aria-label={paused ? $t('play_memories') : $t('pause_memories')}
+            icon={paused ? mdiPlay : mdiPause}
+            onclick={() => handlePromiseError(togglePause())}
+          />
+        </div>
+
+        {#each assets as _, index (index)}
+          <button
+            type="button"
+            class="relative w-full py-2 cursor-pointer"
+            onclick={() => (currentIndex = index)}
+            aria-label="{index + 1} / {assets.length}"
+          >
+            <span class="absolute start-0 h-0.5 w-full bg-gray-500"></span>
+            <span class="absolute start-0 h-0.5 bg-white transition-none" style:width="{toProgressPercentage(index)}%"
+            ></span>
+          </button>
+        {/each}
+
+        <div class="shrink-0">
+          <p class="text-sm text-white">{currentIndex + 1}/{assets.length}</p>
+        </div>
+      </div>
+
+      {#snippet trailing()}
         <IconButton
           shape="round"
-          variant="ghost"
           color="secondary"
-          aria-label={paused ? $t('play_memories') : $t('pause_memories')}
-          icon={paused ? mdiPlay : mdiPause}
-          onclick={() => handlePromiseError(togglePause())}
+          variant="ghost"
+          aria-label={$t('delete')}
+          icon={mdiDelete}
+          onclick={handleDelete}
         />
-      </div>
-
-      {#each assets as _, index (index)}
-        <button
-          type="button"
-          class="relative w-full py-2 cursor-pointer"
-          onclick={() => (currentIndex = index)}
-          aria-label="{index + 1} / {assets.length}"
-        >
-          <span class="absolute start-0 h-0.5 w-full bg-gray-500"></span>
-          <span
-            class="absolute start-0 h-0.5 bg-white transition-none"
-            style:width="{toProgressPercentage(index)}%"
-          ></span>
-        </button>
-      {/each}
-
-      <div class="shrink-0">
-        <p class="text-sm text-white">{currentIndex + 1}/{assets.length}</p>
-      </div>
-    </div>
-
-    {#snippet trailing()}
-      <IconButton
-        shape="round"
-        color="secondary"
-        variant="ghost"
-        aria-label={$t('delete')}
-        icon={mdiDelete}
-        onclick={handleDelete}
-      />
-    {/snippet}
-  </ControlAppBar>
+      {/snippet}
+    </ControlAppBar>
   </div>
 
   <!-- Content: flex-1 fills remaining height below the wrapper -->
   <div class="relative flex-1 flex items-center justify-center overflow-hidden">
     {#if currentAsset}
       {#key currentAsset.id}
-        <div
-          class="h-full w-full flex items-center justify-center"
-          in:fade={{ duration: assetViewerFadeDuration }}
-        >
+        <div class="h-full w-full flex items-center justify-center" in:fade={{ duration: assetViewerFadeDuration }}>
           {#if !imageLoaded}
             <DelayedLoadingSpinner />
           {/if}
-          <img
-            src={getAssetMediaUrl({ id: currentAsset.id, size: AssetMediaSize.Preview })}
-            alt={currentAsset.originalFileName}
-            class="max-h-full max-w-full object-contain transition-opacity duration-300 {imageLoaded
-              ? 'opacity-100'
-              : 'opacity-0'}"
-            onload={onImageLoaded}
-          />
           {#if currentAsset.type === AssetTypeEnum.Video}
-            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div class="bg-black/40 rounded-full p-4">
-                <svg viewBox="0 0 24 24" class="w-12 h-12 fill-white">
-                  <path d={mdiPlay} />
-                </svg>
-              </div>
-            </div>
+            <video
+              bind:this={videoPlayer}
+              src={getAssetPlaybackUrl({ id: currentAsset.id })}
+              poster={getAssetMediaUrl({ id: currentAsset.id, size: AssetMediaSize.Preview })}
+              class="max-h-full max-w-full object-contain"
+              autoplay
+              playsinline
+              muted
+              onplay={onImageLoaded}
+              onended={handleNext}
+            ></video>
+          {:else}
+            <img
+              src={getAssetMediaUrl({ id: currentAsset.id, size: AssetMediaSize.Preview })}
+              alt={currentAsset.originalFileName}
+              class="max-h-full max-w-full object-contain transition-opacity duration-300 {imageLoaded
+                ? 'opacity-100'
+                : 'opacity-0'}"
+              onload={onImageLoaded}
+            />
           {/if}
         </div>
       {/key}

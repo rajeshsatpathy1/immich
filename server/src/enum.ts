@@ -575,6 +575,7 @@ export enum QueueName {
   FacialRecognition = 'facialRecognition',
   SmartSearch = 'smartSearch',
   DuplicateDetection = 'duplicateDetection',
+  AestheticScore = 'aestheticScore',
   BackgroundTask = 'backgroundTask',
   StorageTemplateMigration = 'storageTemplateMigration',
   Migration = 'migration',
@@ -663,6 +664,9 @@ export enum JobName {
 
   SmartSearchQueueAll = 'SmartSearchQueueAll',
   SmartSearch = 'SmartSearch',
+
+  AestheticScoreQueueAll = 'AestheticScoreQueueAll',
+  AestheticScore = 'AestheticScore',
 
   StorageTemplateMigration = 'StorageTemplateMigration',
   StorageTemplateMigrationSingle = 'StorageTemplateMigrationSingle',

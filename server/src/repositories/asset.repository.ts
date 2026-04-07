@@ -41,6 +41,7 @@ import {
   withLibrary,
   withOwner,
   withSmartSearch,
+  withAestheticScore,
   withTagId,
   withTags,
 } from 'src/utils/database';
@@ -135,6 +136,7 @@ interface GetByIdsRelations {
   stack?: { assets?: boolean };
   tags?: boolean;
   edits?: boolean;
+  aestheticScore?: boolean;
 }
 
 const distinctLocked = <T extends LockableProperty[] | null>(eb: ExpressionBuilder<DB, 'asset_exif'>, columns: T) =>
@@ -301,11 +303,20 @@ export class AssetRepository {
               facesRecognizedAt: eb.ref('excluded.facesRecognizedAt'),
               metadataExtractedAt: eb.ref('excluded.metadataExtractedAt'),
               ocrAt: eb.ref('excluded.ocrAt'),
+              aestheticScoredAt: eb.ref('excluded.aestheticScoredAt'),
             },
             values[0],
           ),
         ),
       )
+      .execute();
+  }
+
+  async upsertAestheticScore(assetId: string, score: number): Promise<void> {
+    await this.db
+      .insertInto('asset_aesthetic_score')
+      .values({ assetId: asUuid(assetId), score })
+      .onConflict((oc) => oc.column('assetId').doUpdateSet({ score }))
       .execute();
   }
 
@@ -450,6 +461,7 @@ export class AssetRepository {
       .select(withFacesAndPeople)
       .select(withTags)
       .$call(withExif)
+      .$call(withAestheticScore)
       .where('asset.id', '=', anyUuid(ids))
       .execute();
   }
@@ -532,7 +544,7 @@ export class AssetRepository {
   @GenerateSql({ params: [DummyValue.UUID] })
   getById(
     id: string,
-    { exifInfo, faces, files, library, owner, smartSearch, stack, tags, edits }: GetByIdsRelations = {},
+    { exifInfo, faces, files, library, owner, smartSearch, stack, tags, edits, aestheticScore }: GetByIdsRelations = {},
   ) {
     return this.db
       .selectFrom('asset')
@@ -575,6 +587,7 @@ export class AssetRepository {
       .$if(!!files, (qb) => qb.select(withFiles))
       .$if(!!tags, (qb) => qb.select(withTags))
       .$if(!!edits, (qb) => qb.select(withEdits))
+      .$if(!!aestheticScore, withAestheticScore)
       .limit(1)
       .executeTakeFirst();
   }

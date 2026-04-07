@@ -124,10 +124,7 @@ describe(HighlightService.name, () => {
       ).resolves.toMatchObject({ assets: [] });
 
       // Should have been called with empty set since no access
-      expect(mocks.highlight.create).toHaveBeenCalledWith(
-        expect.objectContaining({ ownerId: userId }),
-        new Set(),
-      );
+      expect(mocks.highlight.create).toHaveBeenCalledWith(expect.objectContaining({ ownerId: userId }), new Set());
     });
   });
 
@@ -183,12 +180,12 @@ describe(HighlightService.name, () => {
       mocks.highlight.getAssetsByTagId.mockResolvedValue([]);
       mocks.highlight.get.mockResolvedValue(getForHighlight(highlight));
 
-      await expect(
-        sut.generate(factory.auth({ user: { id: userId } }), { sourceTagId: tagId }),
-      ).resolves.toMatchObject({
-        id: highlight.id,
-        type: HighlightType.Auto,
-      });
+      await expect(sut.generate(factory.auth({ user: { id: userId } }), { sourceTagId: tagId })).resolves.toMatchObject(
+        {
+          id: highlight.id,
+          type: HighlightType.Auto,
+        },
+      );
     });
 
     it('should regenerate existing auto highlight', async () => {
@@ -205,11 +202,11 @@ describe(HighlightService.name, () => {
       mocks.highlight.getAssetIds.mockResolvedValue(new Set());
       mocks.highlight.get.mockResolvedValue(getForHighlight(existing));
 
-      await expect(
-        sut.generate(factory.auth({ user: { id: userId } }), { sourceTagId: tagId }),
-      ).resolves.toMatchObject({
-        id: existing.id,
-      });
+      await expect(sut.generate(factory.auth({ user: { id: userId } }), { sourceTagId: tagId })).resolves.toMatchObject(
+        {
+          id: existing.id,
+        },
+      );
     });
   });
 });

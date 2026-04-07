@@ -19,6 +19,7 @@ export interface ScoringAsset {
   faceCount?: number;
   isFavorite?: boolean;
   rating?: number;
+  aestheticScore?: number;
 }
 
 export interface ScoringConfig {
@@ -26,14 +27,16 @@ export interface ScoringConfig {
   peopleWeight: number;
   qualityWeight: number;
   favoriteAndRatingWeight: number;
+  aestheticWeight: number;
   maxPhotos: number;
 }
 
 export const DEFAULT_SCORING_CONFIG: ScoringConfig = {
-  dateWeight: 0.2,
-  peopleWeight: 0.25,
-  qualityWeight: 0.15,
+  dateWeight: 0,
+  peopleWeight: 0.1,
+  qualityWeight: 0.1,
   favoriteAndRatingWeight: 0.4,
+  aestheticWeight: 0.4,
   maxPhotos: 10,
 };
 
@@ -118,6 +121,17 @@ function calculateQualityScore(asset: ScoringAsset): number {
 }
 
 /**
+ * Calculate aesthetic score from the pre-computed LAION Aesthetic Predictor output.
+ * Falls back to a neutral 0.5 when no score is available.
+ */
+function calculateAestheticScore(asset: ScoringAsset): number {
+  if (asset.aestheticScore == null) {
+    return 0.5; // Neutral fallback when not yet scored
+  }
+  return Math.min(Math.max(asset.aestheticScore / 10, 0), 1);
+}
+
+/**
  * Calculate favorite/rating boost.
  */
 function calculateFavoriteAndRatingScore(asset: ScoringAsset): number {
@@ -143,14 +157,21 @@ export function scoreAsset(
   const peopleScore = calculatePeopleScore(asset);
   const qualityScore = calculateQualityScore(asset);
   const favoriteScore = calculateFavoriteAndRatingScore(asset);
+  const aestheticScoreValue = calculateAestheticScore(asset);
 
-  const totalWeight = config.dateWeight + config.peopleWeight + config.qualityWeight + config.favoriteAndRatingWeight;
+  const totalWeight =
+    config.dateWeight +
+    config.peopleWeight +
+    config.qualityWeight +
+    config.favoriteAndRatingWeight +
+    config.aestheticWeight;
 
   const weighted =
     dateScore * config.dateWeight +
     peopleScore * config.peopleWeight +
     qualityScore * config.qualityWeight +
-    favoriteScore * config.favoriteAndRatingWeight;
+    favoriteScore * config.favoriteAndRatingWeight +
+    aestheticScoreValue * config.aestheticWeight;
 
   return totalWeight > 0 ? weighted / totalWeight : 0;
 }

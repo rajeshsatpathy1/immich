@@ -30,6 +30,7 @@ import { AlbumUserAuditTable } from 'src/schema/tables/album-user-audit.table';
 import { AlbumUserTable } from 'src/schema/tables/album-user.table';
 import { AlbumTable } from 'src/schema/tables/album.table';
 import { ApiKeyTable } from 'src/schema/tables/api-key.table';
+import { AssetAestheticScoreTable } from 'src/schema/tables/asset-aesthetic-score.table';
 import { AssetAuditTable } from 'src/schema/tables/asset-audit.table';
 import { AssetEditAuditTable } from 'src/schema/tables/asset-edit-audit.table';
 import { AssetEditTable } from 'src/schema/tables/asset-edit.table';
@@ -101,6 +102,7 @@ export class ImmichDatabase {
     AssetMetadataTable,
     AssetMetadataAuditTable,
     AssetJobStatusTable,
+    AssetAestheticScoreTable,
     AssetOcrTable,
     AssetTable,
     AssetFileTable,
@@ -206,6 +208,7 @@ export interface DB {
   asset_metadata: AssetMetadataTable;
   asset_metadata_audit: AssetMetadataAuditTable;
   asset_job_status: AssetJobStatusTable;
+  asset_aesthetic_score: AssetAestheticScoreTable;
   asset_ocr: AssetOcrTable;
   ocr_search: OcrSearchTable;
 

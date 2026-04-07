@@ -1,11 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  ForeignKeyColumn,
-  Generated,
-  Table,
-  Timestamp,
-} from '@immich/sql-tools';
+import { Column, CreateDateColumn, ForeignKeyColumn, Generated, Table, Timestamp } from '@immich/sql-tools';
 import { PrimaryGeneratedUuidV7Column } from 'src/decorators';
 import { HighlightTable } from 'src/schema/tables/highlight.table';
 
