@@ -385,6 +385,27 @@ class MemoryAccess {
   }
 }
 
+class HighlightAccess {
+  constructor(private db: Kysely<DB>) {}
+
+  @GenerateSql({ params: [DummyValue.UUID, DummyValue.UUID_SET] })
+  @ChunkedSet({ paramIndex: 1 })
+  async checkOwnerAccess(userId: string, highlightIds: Set<string>) {
+    if (highlightIds.size === 0) {
+      return new Set<string>();
+    }
+
+    return this.db
+      .selectFrom('highlight')
+      .select('highlight.id')
+      .where('highlight.id', 'in', [...highlightIds])
+      .where('highlight.ownerId', '=', userId)
+      .where('highlight.deletedAt', 'is', null)
+      .execute()
+      .then((highlights) => new Set(highlights.map((highlight) => highlight.id)));
+  }
+}
+
 class PersonAccess {
   constructor(private db: Kysely<DB>) {}
 
@@ -488,6 +509,7 @@ export class AccessRepository {
   album: AlbumAccess;
   asset: AssetAccess;
   authDevice: AuthDeviceAccess;
+  highlight: HighlightAccess;
   memory: MemoryAccess;
   notification: NotificationAccess;
   person: PersonAccess;
@@ -503,6 +525,7 @@ export class AccessRepository {
     this.album = new AlbumAccess(db);
     this.asset = new AssetAccess(db);
     this.authDevice = new AuthDeviceAccess(db);
+    this.highlight = new HighlightAccess(db);
     this.memory = new MemoryAccess(db);
     this.notification = new NotificationAccess(db);
     this.person = new PersonAccess(db);

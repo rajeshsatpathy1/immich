@@ -81,6 +81,10 @@ export type SystemConfig = {
       minRecognitionScore: number;
       maxResolution: number;
     };
+    aesthetic: {
+      enabled: boolean;
+      modelName: string;
+    };
   };
   map: {
     enabled: boolean;
@@ -187,6 +191,12 @@ export type SystemConfig = {
   user: {
     deleteDelay: number;
   };
+  memories: {
+    enabled: boolean;
+  };
+  highlights: {
+    enabled: boolean;
+  };
 };
 
 export type MachineLearningConfig = SystemConfig['machineLearning'];
@@ -237,6 +247,8 @@ export const defaults = Object.freeze<SystemConfig>({
     [QueueName.Ocr]: { concurrency: 1 },
     [QueueName.Workflow]: { concurrency: 5 },
     [QueueName.Editor]: { concurrency: 2 },
+    [QueueName.AestheticScore]: { concurrency: 2 },
+    [QueueName.HighlightGenerate]: { concurrency: 1 },
   },
   logging: {
     enabled: true,
@@ -271,6 +283,10 @@ export const defaults = Object.freeze<SystemConfig>({
       minDetectionScore: 0.5,
       minRecognitionScore: 0.8,
       maxResolution: 736,
+    },
+    aesthetic: {
+      enabled: true,
+      modelName: 'aesthetic-predictor-v2-5',
     },
   },
   map: {
@@ -392,5 +408,11 @@ export const defaults = Object.freeze<SystemConfig>({
   },
   user: {
     deleteDelay: 7,
+  },
+  memories: {
+    enabled: true,
+  },
+  highlights: {
+    enabled: true,
   },
 });

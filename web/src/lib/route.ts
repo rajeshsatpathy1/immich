@@ -79,6 +79,10 @@ export const Route = {
   map: (point?: { zoom: number; lat: number; lng: number }) =>
     '/map' + (point ? `#${point.zoom}/${point.lat}/${point.lng}` : ''),
 
+  // highlights
+  highlights: () => '/highlights',
+  viewHighlight: ({ id }: { id: string }) => `/highlights/${id}`,
+
   // memories
   memories: (params?: { id?: string }) => '/memory' + asQueryString(params),
 

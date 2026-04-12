@@ -28,3 +28,9 @@ vite.config.js.timestamp-*
 .pnpm-store
 .devcontainer/library
 .devcontainer/.env*
+
+# Aesthetic model — large binary (~1.2 GB), generate via misc/export_aesthetic_onnx.py
+misc/aesthetic_model/
+
+# Generated bin scripts
+**/bin/**

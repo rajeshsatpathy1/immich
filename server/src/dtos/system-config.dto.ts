@@ -15,7 +15,13 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { SystemConfig } from 'src/config';
-import { CLIPConfig, DuplicateDetectionConfig, FacialRecognitionConfig, OcrConfig } from 'src/dtos/model-config.dto';
+import {
+  AestheticConfig,
+  CLIPConfig,
+  DuplicateDetectionConfig,
+  FacialRecognitionConfig,
+  OcrConfig,
+} from 'src/dtos/model-config.dto';
 import {
   AudioCodec,
   CQMode,
@@ -256,6 +262,18 @@ class SystemConfigJobDto implements Record<ConcurrentQueueName, JobSettingsDto> 
   @IsObject()
   @Type(() => JobSettingsDto)
   [QueueName.Editor]!: JobSettingsDto;
+
+  @ApiProperty({ type: JobSettingsDto, description: undefined })
+  @ValidateNested()
+  @IsObject()
+  @Type(() => JobSettingsDto)
+  [QueueName.AestheticScore]!: JobSettingsDto;
+
+  @ApiProperty({ type: JobSettingsDto, description: undefined })
+  @ValidateNested()
+  @IsObject()
+  @Type(() => JobSettingsDto)
+  [QueueName.HighlightGenerate]!: JobSettingsDto;
 }
 
 class SystemConfigLibraryScanDto {
@@ -339,6 +357,11 @@ class SystemConfigMachineLearningDto {
   @ValidateNested()
   @IsObject()
   ocr!: OcrConfig;
+
+  @Type(() => AestheticConfig)
+  @ValidateNested()
+  @IsObject()
+  aesthetic!: AestheticConfig;
 }
 
 enum MapTheme {
@@ -710,6 +733,16 @@ class SystemConfigUserDto {
   deleteDelay!: number;
 }
 
+class SystemConfigMemoriesDto {
+  @ValidateBoolean({ description: 'Enabled' })
+  enabled!: boolean;
+}
+
+class SystemConfigHighlightsDto {
+  @ValidateBoolean({ description: 'Enabled' })
+  enabled!: boolean;
+}
+
 export class SystemConfigDto implements SystemConfig {
   // Description lives on schema to avoid duplication
   @ApiProperty({ description: undefined })
@@ -857,6 +890,20 @@ export class SystemConfigDto implements SystemConfig {
   @ValidateNested()
   @IsObject()
   user!: SystemConfigUserDto;
+
+  // Description lives on schema to avoid duplication
+  @ApiProperty({ description: undefined })
+  @Type(() => SystemConfigMemoriesDto)
+  @ValidateNested()
+  @IsObject()
+  memories!: SystemConfigMemoriesDto;
+
+  // Description lives on schema to avoid duplication
+  @ApiProperty({ description: undefined })
+  @Type(() => SystemConfigHighlightsDto)
+  @ValidateNested()
+  @IsObject()
+  highlights!: SystemConfigHighlightsDto;
 }
 
 export function mapConfig(config: SystemConfig): SystemConfigDto {

@@ -148,6 +148,8 @@ describe(ServerService.name, () => {
         configFile: false,
         trash: true,
         email: false,
+        memories: true,
+        highlights: true,
       });
       expect(mocks.systemMetadata.get).toHaveBeenCalled();
     });

@@ -1,4 +1,5 @@
 import { ActivityService } from 'src/services/activity.service';
+import { AestheticScoreService } from 'src/services/aesthetic-score.service';
 import { AlbumService } from 'src/services/album.service';
 import { ApiKeyService } from 'src/services/api-key.service';
 import { ApiService } from 'src/services/api.service';
@@ -12,6 +13,7 @@ import { DatabaseBackupService } from 'src/services/database-backup.service';
 import { DatabaseService } from 'src/services/database.service';
 import { DownloadService } from 'src/services/download.service';
 import { DuplicateService } from 'src/services/duplicate.service';
+import { HighlightService } from 'src/services/highlight.service';
 import { JobService } from 'src/services/job.service';
 import { LibraryService } from 'src/services/library.service';
 import { MaintenanceService } from 'src/services/maintenance.service';
@@ -48,6 +50,7 @@ import { ViewService } from 'src/services/view.service';
 import { WorkflowService } from 'src/services/workflow.service';
 
 export const services = [
+  AestheticScoreService,
   ApiKeyService,
   ActivityService,
   AlbumService,
@@ -62,6 +65,7 @@ export const services = [
   DatabaseService,
   DownloadService,
   DuplicateService,
+  HighlightService,
   JobService,
   LibraryService,
   MaintenanceService,

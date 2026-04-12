@@ -191,6 +191,32 @@ export const memory_asset_delete_audit = registerFunction({
     END`,
 });
 
+export const highlight_delete_audit = registerFunction({
+  name: 'highlight_delete_audit',
+  returnType: 'TRIGGER',
+  language: 'PLPGSQL',
+  body: `
+    BEGIN
+      INSERT INTO highlight_audit ("highlightId", "userId")
+      SELECT "id", "ownerId"
+      FROM OLD;
+      RETURN NULL;
+    END`,
+});
+
+export const highlight_asset_delete_audit = registerFunction({
+  name: 'highlight_asset_delete_audit',
+  returnType: 'TRIGGER',
+  language: 'PLPGSQL',
+  body: `
+    BEGIN
+      INSERT INTO highlight_asset_audit ("highlightId", "assetId")
+      SELECT "highlightId", "assetId" FROM OLD
+      WHERE "highlightId" IN (SELECT "id" FROM highlight WHERE "id" IN (SELECT "highlightId" FROM OLD));
+      RETURN NULL;
+    END`,
+});
+
 export const stack_delete_audit = registerFunction({
   name: 'stack_delete_audit',
   returnType: 'TRIGGER',

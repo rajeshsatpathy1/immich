@@ -244,6 +244,14 @@ export class QueueService extends BaseService {
         return this.jobRepository.queue({ name: JobName.OcrQueueAll, data: { force } });
       }
 
+      case QueueName.AestheticScore: {
+        return this.jobRepository.queue({ name: JobName.AestheticScoreQueueAll, data: { force } });
+      }
+
+      case QueueName.HighlightGenerate: {
+        return this.jobRepository.queue({ name: JobName.HighlightGenerate });
+      }
+
       default: {
         throw new BadRequestException(`Invalid job name: ${name}`);
       }

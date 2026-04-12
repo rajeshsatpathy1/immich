@@ -158,6 +158,7 @@
           <Stack gap={3}>
             <FeatureSetting title={$t('email_notifications')} state={userPreferences.emailNotifications.enabled} />
             <FeatureSetting title={$t('folders')} state={userPreferences.folders.enabled} />
+            <FeatureSetting title={$t('highlights')} state={userPreferences.highlights.enabled} />
             <FeatureSetting title={$t('memories')} state={userPreferences.memories.enabled} />
             <FeatureSetting title={$t('people')} state={userPreferences.people.enabled} />
             <FeatureSetting title={$t('rating')} state={userPreferences.ratings.enabled} />

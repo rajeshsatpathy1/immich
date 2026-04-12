@@ -30,6 +30,10 @@ const asJobItem = (dto: JobCreateDto): JobItem => {
       return { name: JobName.MemoryGenerate };
     }
 
+    case ManualJobName.HighlightGenerate: {
+      return { name: JobName.HighlightGenerate };
+    }
+
     case ManualJobName.BackupDatabase: {
       return { name: JobName.DatabaseBackup };
     }
