@@ -9,7 +9,6 @@ from immich_ml.models.base import InferenceModel
 from immich_ml.models.transforms import (
     crop_pil,
     decode_pil,
-    get_pil_resampling,
     normalize,
     resize_pil,
     to_numpy,
@@ -49,7 +48,6 @@ class LaionAestheticPredictor(InferenceModel):
 
     def _load(self) -> ModelSession:
         session = super()._load()
-        self._resampling = get_pil_resampling("bicubic")
         log.debug(f"Loaded aesthetic predictor model '{self.model_name}'")
         return session
 
@@ -61,7 +59,7 @@ class LaionAestheticPredictor(InferenceModel):
         return score
 
     def _preprocess(self, image: Image.Image) -> NDArray[np.float32]:
-        image = resize_pil(image, _AESTHETIC_SIZE, self._resampling)
+        image = resize_pil(image, _AESTHETIC_SIZE)
         image = crop_pil(image, _AESTHETIC_SIZE)
         image_np = to_numpy(image)
         image_np = normalize(image_np, _AESTHETIC_MEAN, _AESTHETIC_STD)

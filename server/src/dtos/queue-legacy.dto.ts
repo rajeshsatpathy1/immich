@@ -76,6 +76,9 @@ export class QueuesResponseLegacyDto implements Record<QueueName, QueueResponseL
 
   @ApiProperty({ type: QueueResponseLegacyDto })
   [QueueName.AestheticScore]!: QueueResponseLegacyDto;
+
+  @ApiProperty({ type: QueueResponseLegacyDto })
+  [QueueName.HighlightGenerate]!: QueueResponseLegacyDto;
 }
 
 export const mapQueueLegacy = (response: QueueResponseDto): QueueResponseLegacyDto => {

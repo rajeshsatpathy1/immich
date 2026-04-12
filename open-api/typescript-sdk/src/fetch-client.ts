@@ -9528,6 +9528,7 @@ export enum QueueName {
   Workflow = 'workflow',
   Editor = 'editor',
   AestheticScore = 'aestheticScore',
+  HighlightGenerate = 'highlightGenerate',
 }
 export enum QueueCommand {
   Start = 'start',

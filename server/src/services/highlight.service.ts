@@ -18,7 +18,7 @@ import { DEFAULT_SCORING_CONFIG, ScoringAsset, ScoringConfig, selectTopAssets } 
 
 @Injectable()
 export class HighlightService extends BaseService {
-  @OnJob({ name: JobName.HighlightGenerate, queue: QueueName.BackgroundTask })
+  @OnJob({ name: JobName.HighlightGenerate, queue: QueueName.HighlightGenerate })
   async onHighlightGenerate() {
     const users = await this.userRepository.getList({ withDeleted: false });
 

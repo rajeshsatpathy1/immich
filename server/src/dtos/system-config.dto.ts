@@ -268,6 +268,12 @@ class SystemConfigJobDto implements Record<ConcurrentQueueName, JobSettingsDto> 
   @IsObject()
   @Type(() => JobSettingsDto)
   [QueueName.AestheticScore]!: JobSettingsDto;
+
+  @ApiProperty({ type: JobSettingsDto, description: undefined })
+  @ValidateNested()
+  @IsObject()
+  @Type(() => JobSettingsDto)
+  [QueueName.HighlightGenerate]!: JobSettingsDto;
 }
 
 class SystemConfigLibraryScanDto {

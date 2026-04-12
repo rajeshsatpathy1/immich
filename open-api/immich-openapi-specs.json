@@ -21283,6 +21283,7 @@
           "smartSearch",
           "duplicateDetection",
           "aestheticScore",
+          "highlightGenerate",
           "backgroundTask",
           "storageTemplateMigration",
           "migration",
@@ -21423,6 +21424,9 @@
           "facialRecognition": {
             "$ref": "#/components/schemas/QueueResponseLegacyDto"
           },
+          "highlightGenerate": {
+            "$ref": "#/components/schemas/QueueResponseLegacyDto"
+          },
           "library": {
             "$ref": "#/components/schemas/QueueResponseLegacyDto"
           },
@@ -21468,6 +21472,7 @@
           "editor",
           "faceDetection",
           "facialRecognition",
+          "highlightGenerate",
           "library",
           "metadataExtraction",
           "migration",
@@ -25017,6 +25022,9 @@
           "faceDetection": {
             "$ref": "#/components/schemas/JobSettingsDto"
           },
+          "highlightGenerate": {
+            "$ref": "#/components/schemas/JobSettingsDto"
+          },
           "library": {
             "$ref": "#/components/schemas/JobSettingsDto"
           },
@@ -25056,6 +25064,7 @@
           "backgroundTask",
           "editor",
           "faceDetection",
+          "highlightGenerate",
           "library",
           "metadataExtraction",
           "migration",

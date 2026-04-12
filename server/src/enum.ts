@@ -576,6 +576,7 @@ export enum QueueName {
   SmartSearch = 'smartSearch',
   DuplicateDetection = 'duplicateDetection',
   AestheticScore = 'aestheticScore',
+  HighlightGenerate = 'highlightGenerate',
   BackgroundTask = 'backgroundTask',
   StorageTemplateMigration = 'storageTemplateMigration',
   Migration = 'migration',

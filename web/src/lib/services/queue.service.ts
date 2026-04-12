@@ -26,6 +26,7 @@ import {
   mdiFileJpgBox,
   mdiFileXmlBox,
   mdiFolderMove,
+  mdiImage,
   mdiImageSearch,
   mdiLibraryShelves,
   mdiOcr,
@@ -252,6 +253,11 @@ export const asQueueItem = ($t: MessageFormatter, queue: { name: QueueName }): Q
       icon: mdiStarOutline,
       title: 'Aesthetic Scoring',
       subtitle: 'Score images with the LAION aesthetic predictor',
+    },
+    [QueueName.HighlightGenerate]: {
+      icon: mdiImage,
+      title: 'Generate Highlights',
+      subtitle: 'Regenerate auto-curated highlights from tags',
     },
   };
 

@@ -31,6 +31,7 @@ import {
   removeUndefinedKeys,
   truncatedDate,
   unnest,
+  withAestheticScore,
   withDefaultVisibility,
   withEdits,
   withExif,
@@ -41,7 +42,6 @@ import {
   withLibrary,
   withOwner,
   withSmartSearch,
-  withAestheticScore,
   withTagId,
   withTags,
 } from 'src/utils/database';

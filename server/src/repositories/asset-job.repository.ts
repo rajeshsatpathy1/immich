@@ -225,11 +225,7 @@ export class AssetJobRepository {
   streamForAestheticScore(force?: boolean) {
     return this.assetsWithPreviews()
       .select(['asset.id'])
-      .$if(!force, (qb) =>
-        qb
-          .leftJoin('asset_job_status as job_status', 'job_status.assetId', 'asset.id')
-          .where('job_status.aestheticScoredAt', 'is', null),
-      )
+      .$if(!force, (qb) => qb.where('job_status.aestheticScoredAt', 'is', null))
       .stream();
   }
 

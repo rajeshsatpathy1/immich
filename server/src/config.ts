@@ -248,6 +248,7 @@ export const defaults = Object.freeze<SystemConfig>({
     [QueueName.Workflow]: { concurrency: 5 },
     [QueueName.Editor]: { concurrency: 2 },
     [QueueName.AestheticScore]: { concurrency: 2 },
+    [QueueName.HighlightGenerate]: { concurrency: 1 },
   },
   logging: {
     enabled: true,
@@ -284,7 +285,7 @@ export const defaults = Object.freeze<SystemConfig>({
       maxResolution: 736,
     },
     aesthetic: {
-      enabled: false,
+      enabled: true,
       modelName: 'aesthetic-predictor-v2-5',
     },
   },
