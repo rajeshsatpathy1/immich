@@ -33,3 +33,6 @@ vite.config.js.timestamp-*
 
 # Aesthetic model — large binary (~1.2 GB), generate via misc/export_aesthetic_onnx.py
 misc/aesthetic_model/
+
+# Generated CLI bin (compiled from TypeScript)
+cli/bin/

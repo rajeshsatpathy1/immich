@@ -22,3 +22,5 @@ open-api/typescript-sdk/fetch-client.ts -diff -merge
 open-api/typescript-sdk/fetch-client.ts linguist-generated=true
 
 *.sh text eol=lf
+server/bin/* text eol=lf
+web/bin/* text eol=lf
