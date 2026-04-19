@@ -138,6 +138,8 @@ export class AssetResponseDto extends SanitizedAssetResponseDto {
   resized?: boolean;
   @Property({ description: 'Is edited', history: new HistoryBuilder().added('v2.5.0').beta('v2.5.0') })
   isEdited!: boolean;
+  @ApiPropertyOptional({ description: 'LAION aesthetic score (0-10)', type: 'number', nullable: true })
+  aestheticScore?: number | null;
 }
 
 export type MapAsset = {
@@ -178,6 +180,7 @@ export type MapAsset = {
   width: number | null;
   height: number | null;
   isEdited: boolean;
+  aestheticScore?: number | null;
 };
 
 export class AssetStackResponseDto {
@@ -297,5 +300,6 @@ export function mapAsset(entity: MaybeDehydrated<MapAsset>, options: AssetMapOpt
     width: entity.width,
     height: entity.height,
     isEdited: entity.isEdited,
+    aestheticScore: entity.aestheticScore ?? null,
   };
 }

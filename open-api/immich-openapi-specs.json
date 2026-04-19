@@ -5643,6 +5643,553 @@
         "x-immich-state": "Stable"
       }
     },
+    "/highlights": {
+      "get": {
+        "description": "Retrieve a list of highlights for the authenticated user.",
+        "operationId": "searchHighlights",
+        "parameters": [
+          {
+            "name": "isPinned",
+            "required": false,
+            "in": "query",
+            "description": "Filter by pinned status",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "size",
+            "required": false,
+            "in": "query",
+            "description": "Number of highlights to return",
+            "schema": {
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "description": "Highlight type",
+            "schema": {
+              "$ref": "#/components/schemas/HighlightType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/HighlightResponseDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "summary": "Retrieve highlights",
+        "tags": [
+          "Highlights"
+        ],
+        "x-immich-history": [
+          {
+            "version": "v2.6.0",
+            "state": "Added"
+          },
+          {
+            "version": "v2.6.0",
+            "state": "Beta"
+          }
+        ],
+        "x-immich-permission": "highlight.read",
+        "x-immich-state": "Beta"
+      },
+      "post": {
+        "description": "Create a new highlight, either manual or auto-curated from a tag.",
+        "operationId": "createHighlight",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HighlightCreateDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HighlightResponseDto"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "summary": "Create a highlight",
+        "tags": [
+          "Highlights"
+        ],
+        "x-immich-history": [
+          {
+            "version": "v2.6.0",
+            "state": "Added"
+          },
+          {
+            "version": "v2.6.0",
+            "state": "Beta"
+          }
+        ],
+        "x-immich-permission": "highlight.create",
+        "x-immich-state": "Beta"
+      }
+    },
+    "/highlights/from-album": {
+      "post": {
+        "description": "Generate a manual highlight by scoring and selecting the best photos from an album.",
+        "operationId": "generateHighlightFromAlbum",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HighlightGenerateFromAlbumDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HighlightResponseDto"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "summary": "Generate highlight from album",
+        "tags": [
+          "Highlights"
+        ],
+        "x-immich-history": [
+          {
+            "version": "v2.6.0",
+            "state": "Added"
+          },
+          {
+            "version": "v2.6.0",
+            "state": "Beta"
+          }
+        ],
+        "x-immich-permission": "highlight.create",
+        "x-immich-state": "Beta"
+      }
+    },
+    "/highlights/generate": {
+      "post": {
+        "description": "Generate or regenerate an auto-curated highlight from a source tag.",
+        "operationId": "generateHighlight",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HighlightGenerateDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HighlightResponseDto"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "summary": "Generate highlight from tag",
+        "tags": [
+          "Highlights"
+        ],
+        "x-immich-history": [
+          {
+            "version": "v2.6.0",
+            "state": "Added"
+          },
+          {
+            "version": "v2.6.0",
+            "state": "Beta"
+          }
+        ],
+        "x-immich-permission": "highlight.create",
+        "x-immich-state": "Beta"
+      }
+    },
+    "/highlights/{id}": {
+      "delete": {
+        "description": "Delete a specific highlight by its ID.",
+        "operationId": "deleteHighlight",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "summary": "Delete a highlight",
+        "tags": [
+          "Highlights"
+        ],
+        "x-immich-history": [
+          {
+            "version": "v2.6.0",
+            "state": "Added"
+          },
+          {
+            "version": "v2.6.0",
+            "state": "Beta"
+          }
+        ],
+        "x-immich-permission": "highlight.delete",
+        "x-immich-state": "Beta"
+      },
+      "get": {
+        "description": "Retrieve a specific highlight by its ID.",
+        "operationId": "getHighlight",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HighlightResponseDto"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "summary": "Retrieve a highlight",
+        "tags": [
+          "Highlights"
+        ],
+        "x-immich-history": [
+          {
+            "version": "v2.6.0",
+            "state": "Added"
+          },
+          {
+            "version": "v2.6.0",
+            "state": "Beta"
+          }
+        ],
+        "x-immich-permission": "highlight.read",
+        "x-immich-state": "Beta"
+      },
+      "put": {
+        "description": "Update an existing highlight by its ID.",
+        "operationId": "updateHighlight",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HighlightUpdateDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HighlightResponseDto"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "summary": "Update a highlight",
+        "tags": [
+          "Highlights"
+        ],
+        "x-immich-history": [
+          {
+            "version": "v2.6.0",
+            "state": "Added"
+          },
+          {
+            "version": "v2.6.0",
+            "state": "Beta"
+          }
+        ],
+        "x-immich-permission": "highlight.update",
+        "x-immich-state": "Beta"
+      }
+    },
+    "/highlights/{id}/assets": {
+      "delete": {
+        "description": "Remove a list of asset IDs from a specific highlight.",
+        "operationId": "removeHighlightAssets",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkIdsDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BulkIdResponseDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "summary": "Remove assets from a highlight",
+        "tags": [
+          "Highlights"
+        ],
+        "x-immich-history": [
+          {
+            "version": "v2.6.0",
+            "state": "Added"
+          },
+          {
+            "version": "v2.6.0",
+            "state": "Beta"
+          }
+        ],
+        "x-immich-permission": "highlightAsset.delete",
+        "x-immich-state": "Beta"
+      },
+      "post": {
+        "description": "Add a list of asset IDs to a specific highlight.",
+        "operationId": "addHighlightAssets",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkIdsDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BulkIdResponseDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "summary": "Add assets to a highlight",
+        "tags": [
+          "Highlights"
+        ],
+        "x-immich-history": [
+          {
+            "version": "v2.6.0",
+            "state": "Added"
+          },
+          {
+            "version": "v2.6.0",
+            "state": "Beta"
+          }
+        ],
+        "x-immich-permission": "highlightAsset.create",
+        "x-immich-state": "Beta"
+      }
+    },
     "/jobs": {
       "get": {
         "deprecated": true,
@@ -15290,6 +15837,10 @@
       "description": "Map endpoints include supplemental functionality related to geolocation, such as reverse geocoding and retrieving map markers for assets with geolocation data."
     },
     {
+      "name": "Highlights",
+      "description": "A highlight is a curated collection of best photos selected from a tag, using scoring based on date diversity, people count, quality, and favorites. Highlights can be auto-generated or manually curated."
+    },
+    {
       "name": "Memories",
       "description": "A memory is a specialized collection of assets with dedicated viewing implementations in the web and mobile clients. A memory includes fields related to visibility and are automatically generated per user via a background job."
     },
@@ -15608,6 +16159,23 @@
         },
         "required": [
           "isOnboarded"
+        ],
+        "type": "object"
+      },
+      "AestheticConfig": {
+        "properties": {
+          "enabled": {
+            "description": "Whether the task is enabled",
+            "type": "boolean"
+          },
+          "modelName": {
+            "description": "Name of the model to use",
+            "type": "string"
+          }
+        },
+        "required": [
+          "enabled",
+          "modelName"
         ],
         "type": "object"
       },
@@ -16997,6 +17565,11 @@
       },
       "AssetResponseDto": {
         "properties": {
+          "aestheticScore": {
+            "description": "LAION aesthetic score (0-10)",
+            "nullable": true,
+            "type": "number"
+          },
           "checksum": {
             "description": "Base64 encoded SHA1 hash",
             "type": "string"
@@ -18234,6 +18807,217 @@
         },
         "type": "object"
       },
+      "HighlightCreateDto": {
+        "properties": {
+          "assetIds": {
+            "description": "Asset IDs to include in highlight",
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "description": {
+            "description": "Highlight description",
+            "type": "string"
+          },
+          "isPinned": {
+            "description": "Pin this highlight",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "Highlight name",
+            "type": "string"
+          },
+          "sourceTagId": {
+            "description": "Source tag ID for auto-curated highlights",
+            "format": "uuid",
+            "type": "string",
+            "x-immich-history": [
+              {
+                "version": "v2.6.0",
+                "state": "Added"
+              },
+              {
+                "version": "v2.6.0",
+                "state": "Stable"
+              }
+            ],
+            "x-immich-state": "Stable"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/HighlightType"
+              }
+            ],
+            "description": "Highlight type"
+          }
+        },
+        "required": [
+          "name",
+          "type"
+        ],
+        "type": "object"
+      },
+      "HighlightGenerateDto": {
+        "properties": {
+          "name": {
+            "description": "Highlight name",
+            "type": "string"
+          },
+          "sourceTagId": {
+            "description": "Source tag ID to generate highlight from",
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sourceTagId"
+        ],
+        "type": "object"
+      },
+      "HighlightGenerateFromAlbumDto": {
+        "properties": {
+          "albumId": {
+            "description": "Album ID to generate highlight from",
+            "format": "uuid",
+            "type": "string"
+          },
+          "name": {
+            "description": "Highlight name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "albumId"
+        ],
+        "type": "object"
+      },
+      "HighlightResponseDto": {
+        "properties": {
+          "assets": {
+            "description": "Assets in highlight",
+            "items": {
+              "$ref": "#/components/schemas/AssetResponseDto"
+            },
+            "type": "array"
+          },
+          "createdAt": {
+            "description": "Creation date",
+            "format": "date-time",
+            "type": "string"
+          },
+          "description": {
+            "description": "Highlight description",
+            "type": "string"
+          },
+          "id": {
+            "description": "Highlight ID",
+            "type": "string"
+          },
+          "isPinned": {
+            "description": "Is highlight pinned",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "Highlight name",
+            "type": "string"
+          },
+          "ownerId": {
+            "description": "Owner user ID",
+            "type": "string"
+          },
+          "sourceTagId": {
+            "description": "Source tag ID",
+            "nullable": true,
+            "type": "string"
+          },
+          "thumbnailAssetId": {
+            "description": "Thumbnail asset ID",
+            "nullable": true,
+            "type": "string"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/HighlightType"
+              }
+            ],
+            "description": "Highlight type"
+          },
+          "updatedAt": {
+            "description": "Last update date",
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "assets",
+          "createdAt",
+          "description",
+          "id",
+          "isPinned",
+          "name",
+          "ownerId",
+          "sourceTagId",
+          "thumbnailAssetId",
+          "type",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "HighlightType": {
+        "enum": [
+          "manual",
+          "auto"
+        ],
+        "type": "string"
+      },
+      "HighlightUpdateDto": {
+        "properties": {
+          "description": {
+            "description": "Highlight description",
+            "type": "string"
+          },
+          "isPinned": {
+            "description": "Pin this highlight",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "Highlight name",
+            "type": "string"
+          },
+          "thumbnailAssetId": {
+            "description": "Thumbnail asset ID",
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "HighlightsResponse": {
+        "properties": {
+          "enabled": {
+            "default": true,
+            "description": "Whether highlights are enabled",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled"
+        ],
+        "type": "object"
+      },
+      "HighlightsUpdate": {
+        "properties": {
+          "enabled": {
+            "description": "Whether highlights are enabled",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
       "ImageFormat": {
         "description": "Image format",
         "enum": [
@@ -18293,6 +19077,7 @@
           "LibraryScanQueueAll",
           "MemoryCleanup",
           "MemoryGenerate",
+          "HighlightGenerate",
           "NotificationsCleanup",
           "NotifyUserSignup",
           "NotifyAlbumInvite",
@@ -18310,6 +19095,8 @@
           "SidecarWrite",
           "SmartSearchQueueAll",
           "SmartSearch",
+          "AestheticScoreQueueAll",
+          "AestheticScore",
           "StorageTemplateMigration",
           "StorageTemplateMigrationSingle",
           "TagCleanup",
@@ -18697,6 +19484,7 @@
           "user-cleanup",
           "memory-cleanup",
           "memory-create",
+          "highlight-generate",
           "backup-database"
         ],
         "type": "string"
@@ -19873,6 +20661,12 @@
           "memory.statistics",
           "memoryAsset.create",
           "memoryAsset.delete",
+          "highlight.create",
+          "highlight.read",
+          "highlight.update",
+          "highlight.delete",
+          "highlightAsset.create",
+          "highlightAsset.delete",
           "notification.create",
           "notification.read",
           "notification.update",
@@ -20611,6 +21405,8 @@
           "facialRecognition",
           "smartSearch",
           "duplicateDetection",
+          "aestheticScore",
+          "highlightGenerate",
           "backgroundTask",
           "storageTemplateMigration",
           "migration",
@@ -20730,6 +21526,9 @@
       },
       "QueuesResponseLegacyDto": {
         "properties": {
+          "aestheticScore": {
+            "$ref": "#/components/schemas/QueueResponseLegacyDto"
+          },
           "backgroundTask": {
             "$ref": "#/components/schemas/QueueResponseLegacyDto"
           },
@@ -20746,6 +21545,9 @@
             "$ref": "#/components/schemas/QueueResponseLegacyDto"
           },
           "facialRecognition": {
+            "$ref": "#/components/schemas/QueueResponseLegacyDto"
+          },
+          "highlightGenerate": {
             "$ref": "#/components/schemas/QueueResponseLegacyDto"
           },
           "library": {
@@ -20786,12 +21588,14 @@
           }
         },
         "required": [
+          "aestheticScore",
           "backgroundTask",
           "backupDatabase",
           "duplicateDetection",
           "editor",
           "faceDetection",
           "facialRecognition",
+          "highlightGenerate",
           "library",
           "metadataExtraction",
           "migration",
@@ -21447,12 +22251,20 @@
             "description": "Whether facial recognition is enabled",
             "type": "boolean"
           },
+          "highlights": {
+            "description": "Whether highlights feature is enabled",
+            "type": "boolean"
+          },
           "importFaces": {
             "description": "Whether face import is enabled",
             "type": "boolean"
           },
           "map": {
             "description": "Whether map feature is enabled",
+            "type": "boolean"
+          },
+          "memories": {
+            "description": "Whether memories feature is enabled",
             "type": "boolean"
           },
           "oauth": {
@@ -21497,8 +22309,10 @@
           "duplicateDetection",
           "email",
           "facialRecognition",
+          "highlights",
           "importFaces",
           "map",
+          "memories",
           "oauth",
           "oauthAutoLaunch",
           "ocr",
@@ -23950,6 +24764,9 @@
           "ffmpeg": {
             "$ref": "#/components/schemas/SystemConfigFFmpegDto"
           },
+          "highlights": {
+            "$ref": "#/components/schemas/SystemConfigHighlightsDto"
+          },
           "image": {
             "$ref": "#/components/schemas/SystemConfigImageDto"
           },
@@ -23967,6 +24784,9 @@
           },
           "map": {
             "$ref": "#/components/schemas/SystemConfigMapDto"
+          },
+          "memories": {
+            "$ref": "#/components/schemas/SystemConfigMemoriesDto"
           },
           "metadata": {
             "$ref": "#/components/schemas/SystemConfigMetadataDto"
@@ -24011,12 +24831,14 @@
         "required": [
           "backup",
           "ffmpeg",
+          "highlights",
           "image",
           "job",
           "library",
           "logging",
           "machineLearning",
           "map",
+          "memories",
           "metadata",
           "newVersionCheck",
           "nightlyTasks",
@@ -24264,6 +25086,18 @@
         ],
         "type": "object"
       },
+      "SystemConfigHighlightsDto": {
+        "properties": {
+          "enabled": {
+            "description": "Enabled",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled"
+        ],
+        "type": "object"
+      },
       "SystemConfigImageDto": {
         "properties": {
           "colorspace": {
@@ -24299,6 +25133,9 @@
       },
       "SystemConfigJobDto": {
         "properties": {
+          "aestheticScore": {
+            "$ref": "#/components/schemas/JobSettingsDto"
+          },
           "backgroundTask": {
             "$ref": "#/components/schemas/JobSettingsDto"
           },
@@ -24306,6 +25143,9 @@
             "$ref": "#/components/schemas/JobSettingsDto"
           },
           "faceDetection": {
+            "$ref": "#/components/schemas/JobSettingsDto"
+          },
+          "highlightGenerate": {
             "$ref": "#/components/schemas/JobSettingsDto"
           },
           "library": {
@@ -24343,9 +25183,11 @@
           }
         },
         "required": [
+          "aestheticScore",
           "backgroundTask",
           "editor",
           "faceDetection",
+          "highlightGenerate",
           "library",
           "metadataExtraction",
           "migration",
@@ -24425,6 +25267,9 @@
       },
       "SystemConfigMachineLearningDto": {
         "properties": {
+          "aesthetic": {
+            "$ref": "#/components/schemas/AestheticConfig"
+          },
           "availabilityChecks": {
             "$ref": "#/components/schemas/MachineLearningAvailabilityChecksDto"
           },
@@ -24455,6 +25300,7 @@
           }
         },
         "required": [
+          "aesthetic",
           "availabilityChecks",
           "clip",
           "duplicateDetection",
@@ -24484,6 +25330,18 @@
           "darkStyle",
           "enabled",
           "lightStyle"
+        ],
+        "type": "object"
+      },
+      "SystemConfigMemoriesDto": {
+        "properties": {
+          "enabled": {
+            "description": "Enabled",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled"
         ],
         "type": "object"
       },
@@ -25856,6 +26714,9 @@
           "folders": {
             "$ref": "#/components/schemas/FoldersResponse"
           },
+          "highlights": {
+            "$ref": "#/components/schemas/HighlightsResponse"
+          },
           "memories": {
             "$ref": "#/components/schemas/MemoriesResponse"
           },
@@ -25881,6 +26742,7 @@
           "download",
           "emailNotifications",
           "folders",
+          "highlights",
           "memories",
           "people",
           "purchase",
@@ -25909,6 +26771,9 @@
           },
           "folders": {
             "$ref": "#/components/schemas/FoldersUpdate"
+          },
+          "highlights": {
+            "$ref": "#/components/schemas/HighlightsUpdate"
           },
           "memories": {
             "$ref": "#/components/schemas/MemoriesUpdate"

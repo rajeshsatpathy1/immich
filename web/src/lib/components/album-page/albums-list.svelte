@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import AlbumCardGroup from '$lib/components/album-page/album-card-group.svelte';
   import AlbumsTable from '$lib/components/album-page/albums-table.svelte';
   import OnEvents from '$lib/components/OnEvents.svelte';
@@ -6,6 +7,8 @@
   import RightClickContextMenu from '$lib/components/shared-components/context-menu/right-click-context-menu.svelte';
   import AlbumEditModal from '$lib/modals/AlbumEditModal.svelte';
   import AlbumOptionsModal from '$lib/modals/AlbumOptionsModal.svelte';
+  import GenerateHighlightModal from '$lib/modals/GenerateHighlightModal.svelte';
+  import { Route } from '$lib/route';
   import { handleDeleteAlbum, handleDownloadAlbum } from '$lib/services/album.service';
   import {
     AlbumFilter,
@@ -19,10 +22,11 @@
   import { user } from '$lib/stores/user.store';
   import { getSelectedAlbumGroupOption, sortAlbums, stringToSortOrder, type AlbumGroup } from '$lib/utils/album-utils';
   import type { ContextMenuPosition } from '$lib/utils/context-menu';
+  import { handleError } from '$lib/utils/handle-error';
   import { normalizeSearchString } from '$lib/utils/string-utils';
-  import { type AlbumResponseDto, type SharedLinkResponseDto } from '@immich/sdk';
-  import { modalManager } from '@immich/ui';
-  import { mdiDeleteOutline, mdiDownload, mdiRenameOutline, mdiShareVariantOutline } from '@mdi/js';
+  import { generateHighlightFromAlbum, type AlbumResponseDto, type SharedLinkResponseDto } from '@immich/sdk';
+  import { modalManager, toastManager } from '@immich/ui';
+  import { mdiCreation, mdiDeleteOutline, mdiDownload, mdiRenameOutline, mdiShareVariantOutline } from '@mdi/js';
   import { groupBy } from 'lodash-es';
   import { onMount, type Snippet } from 'svelte';
   import { t } from 'svelte-i18n';
@@ -188,7 +192,7 @@
     isOpen = false;
   };
 
-  const handleSelect = async (action: 'edit' | 'share' | 'download' | 'delete') => {
+  const handleSelect = async (action: 'edit' | 'share' | 'download' | 'delete' | 'generateHighlight') => {
     closeAlbumContextMenu();
 
     if (!selectedAlbum) {
@@ -213,6 +217,29 @@
 
       case 'delete': {
         await handleDeleteAlbum(selectedAlbum);
+        break;
+      }
+
+      case 'generateHighlight': {
+        const result = await modalManager.show(GenerateHighlightModal, {
+          albumName: selectedAlbum.albumName,
+        });
+
+        if (result) {
+          try {
+            const highlight = await generateHighlightFromAlbum({
+              highlightGenerateFromAlbumDto: {
+                albumId: selectedAlbum.id,
+                name: result.name,
+              },
+            });
+            toastManager.primary($t('highlight_created'), {
+              action: { label: $t('view'), onclick: () => void goto(Route.viewHighlight({ id: highlight.id })) },
+            });
+          } catch (error) {
+            handleError(error, $t('errors.unable_to_create_highlight'));
+          }
+        }
         break;
       }
     }
@@ -290,6 +317,9 @@
     <MenuOption icon={mdiShareVariantOutline} text={$t('share')} onClick={() => handleSelect('share')} />
   {/if}
   <MenuOption icon={mdiDownload} text={$t('download')} onClick={() => handleSelect('download')} />
+  {#if selectedAlbum && selectedAlbum.assetCount >= 10}
+    <MenuOption icon={mdiCreation} text={$t('generate_highlight')} onClick={() => handleSelect('generateHighlight')} />
+  {/if}
   {#if showFullContextMenu}
     <MenuOption icon={mdiDeleteOutline} text={$t('delete')} onClick={() => handleSelect('delete')} />
   {/if}

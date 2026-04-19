@@ -14,6 +14,9 @@ const getDefaultPreferences = (): UserPreferences => {
       enabled: false,
       sidebarWeb: false,
     },
+    highlights: {
+      enabled: true,
+    },
     memories: {
       enabled: true,
       duration: 5,

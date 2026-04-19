@@ -55,7 +55,6 @@
 
   let { asset, currentAlbum = null }: Props = $props();
 
-  let showAssetPath = $state(false);
   let showEditFaces = $state(false);
   let isOwner = $derived($user?.id === asset.ownerId);
   let people = $derived(asset.people || []);
@@ -129,8 +128,6 @@
     return Route.folders({ path: getParentPath(asset.originalPath) });
   };
 
-  const toggleAssetPath = () => (showAssetPath = !showAssetPath);
-
   const handleChangeDate = async () => {
     if (!isOwner) {
       return;
@@ -183,6 +180,18 @@
 
   <DetailPanelDescription {asset} {isOwner} />
   <DetailPanelRating {asset} {isOwner} />
+
+  {#if asset.aestheticScore != null}
+    <section class="px-4 pt-2 pb-4 text-sm">
+      <Text size="small" color="muted">Aesthetic Score</Text>
+      <div class="mt-1 flex items-center gap-3">
+        <div class="h-2 flex-1 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+          <div class="h-full rounded-full bg-primary" style="width: {(asset.aestheticScore / 10) * 100}%"></div>
+        </div>
+        <span class="shrink-0 font-medium">{asset.aestheticScore.toFixed(2)} / 10</span>
+      </div>
+    </section>
+  {/if}
 
   {#if !authManager.isSharedLink && isOwner}
     <section class="px-4 pt-4 text-sm">
@@ -369,11 +378,11 @@
               shape="round"
               color="secondary"
               variant="ghost"
-              onclick={toggleAssetPath}
+              onclick={() => assetViewerManager.toggleAssetPath()}
             />
           {/if}
         </p>
-        {#if showAssetPath}
+        {#if assetViewerManager.isShowAssetPath}
           <p class="text-xs opacity-50 break-all pb-2 hover:text-primary" transition:slide={{ duration: 250 }}>
             <!-- eslint-disable-next-line svelte/no-navigation-without-resolve this is supposed to be treated as an absolute/external link -->
             <a href={getAssetFolderHref(asset)} title={$t('go_to_folder')} class="whitespace-pre-wrap">

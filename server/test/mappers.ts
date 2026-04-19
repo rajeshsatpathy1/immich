@@ -7,6 +7,7 @@ import { PartnerTable } from 'src/schema/tables/partner.table';
 import { AlbumFactory } from 'test/factories/album.factory';
 import { AssetFaceFactory } from 'test/factories/asset-face.factory';
 import { AssetFactory } from 'test/factories/asset.factory';
+import { HighlightFactory } from 'test/factories/highlight.factory';
 import { MemoryFactory } from 'test/factories/memory.factory';
 import { SharedLinkFactory } from 'test/factories/shared-link.factory';
 import { StackFactory } from 'test/factories/stack.factory';
@@ -116,6 +117,11 @@ export const getForPartner = (
   ...partner,
   sharedBy: getDehydrated(partner.sharedBy),
   sharedWith: getDehydrated(partner.sharedWith),
+});
+
+export const getForHighlight = (highlight: ReturnType<HighlightFactory['build']>) => ({
+  ...highlight,
+  assets: highlight.assets.map((asset) => getDehydrated(asset)),
 });
 
 export const getForMemory = (memory: ReturnType<MemoryFactory['build']>) => ({

@@ -30,3 +30,6 @@ vite.config.js.timestamp-*
 .devcontainer/.env*
 *.tsbuildinfo
 *.tsbuildInfo
+
+# Aesthetic model — large binary (~1.2 GB), generate via misc/export_aesthetic_onnx.py
+misc/aesthetic_model/

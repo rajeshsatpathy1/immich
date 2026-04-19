@@ -86,8 +86,18 @@ export class ServerService extends BaseService {
   }
 
   async getFeatures(): Promise<ServerFeaturesDto> {
-    const { reverseGeocoding, metadata, map, machineLearning, trash, oauth, passwordLogin, notifications } =
-      await this.getConfig({ withCache: false });
+    const {
+      reverseGeocoding,
+      metadata,
+      map,
+      machineLearning,
+      trash,
+      oauth,
+      passwordLogin,
+      notifications,
+      memories,
+      highlights,
+    } = await this.getConfig({ withCache: false });
     const { configFile } = this.configRepository.getEnv();
 
     return {
@@ -106,6 +116,8 @@ export class ServerService extends BaseService {
       passwordLogin: passwordLogin.enabled,
       configFile: !!configFile,
       email: notifications.smtp.enabled,
+      memories: memories.enabled,
+      highlights: highlights.enabled,
     };
   }
 

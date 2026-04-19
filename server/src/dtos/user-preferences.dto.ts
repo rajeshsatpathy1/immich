@@ -40,6 +40,11 @@ class FoldersUpdate {
   sidebarWeb?: boolean;
 }
 
+class HighlightsUpdate {
+  @ValidateBoolean({ optional: true, description: 'Whether highlights are enabled' })
+  enabled?: boolean;
+}
+
 class PeopleUpdate {
   @ValidateBoolean({ optional: true, description: 'Whether people are enabled' })
   enabled?: boolean;
@@ -115,6 +120,13 @@ export class UserPreferencesUpdateDto {
   @ValidateNested()
   @Type(() => FoldersUpdate)
   folders?: FoldersUpdate;
+
+  // Description lives on schema to avoid duplication
+  @ApiPropertyOptional({ description: undefined })
+  @Optional()
+  @ValidateNested()
+  @Type(() => HighlightsUpdate)
+  highlights?: HighlightsUpdate;
 
   // Description lives on schema to avoid duplication
   @ApiPropertyOptional({ description: undefined })
@@ -212,6 +224,11 @@ class FoldersResponse {
   sidebarWeb: boolean = false;
 }
 
+class HighlightsResponse {
+  @ApiProperty({ description: 'Whether highlights are enabled' })
+  enabled: boolean = true;
+}
+
 class PeopleResponse {
   @ApiProperty({ description: 'Whether people are enabled' })
   enabled: boolean = true;
@@ -269,6 +286,9 @@ export class UserPreferencesResponseDto implements UserPreferences {
   // Description lives on schema to avoid duplication
   @ApiProperty({ description: undefined })
   folders!: FoldersResponse;
+  // Description lives on schema to avoid duplication
+  @ApiProperty({ description: undefined })
+  highlights!: HighlightsResponse;
   // Description lives on schema to avoid duplication
   @ApiProperty({ description: undefined })
   memories!: MemoriesResponse;

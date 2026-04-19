@@ -337,6 +337,10 @@ export type JobItem =
   // Smart Search
   | { name: JobName.SmartSearchQueueAll; data: IBaseJob }
   | { name: JobName.SmartSearch; data: IEntityJob }
+
+  // Aesthetic Scoring
+  | { name: JobName.AestheticScoreQueueAll; data: IBaseJob }
+  | { name: JobName.AestheticScore; data: IEntityJob }
   | { name: JobName.AssetEmptyTrash; data?: IBaseJob }
 
   // Duplicate Detection
@@ -346,6 +350,9 @@ export type JobItem =
   // Memories
   | { name: JobName.MemoryCleanup; data?: IBaseJob }
   | { name: JobName.MemoryGenerate; data?: IBaseJob }
+
+  // Highlights
+  | { name: JobName.HighlightGenerate; data?: IBaseJob }
 
   // Filesystem
   | { name: JobName.FileDelete; data: IDeleteFilesJob }
@@ -501,6 +508,9 @@ export type UserPreferences = {
   folders: {
     enabled: boolean;
     sidebarWeb: boolean;
+  };
+  highlights: {
+    enabled: boolean;
   };
   memories: {
     enabled: boolean;

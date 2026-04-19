@@ -24,11 +24,13 @@ class ModelTask(StrEnum):
     FACIAL_RECOGNITION = "facial-recognition"
     SEARCH = "clip"
     OCR = "ocr"
+    AESTHETIC = "aesthetic"
 
 
 class ModelType(StrEnum):
     DETECTION = "detection"
     RECOGNITION = "recognition"
+    SCORING = "scoring"
     TEXTUAL = "textual"
     VISUAL = "visual"
 
@@ -41,6 +43,7 @@ class ModelFormat(StrEnum):
 
 class ModelSource(StrEnum):
     INSIGHTFACE = "insightface"
+    LAION = "laion"
     MCLIP = "mclip"
     OPENCLIP = "openclip"
     PADDLE = "paddle"

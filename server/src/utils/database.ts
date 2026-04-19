@@ -105,6 +105,12 @@ export function withSmartSearch<O>(qb: SelectQueryBuilder<DB, 'asset', O>) {
     .select((eb) => jsonObjectFrom(eb.table('smart_search')).as('smartSearch'));
 }
 
+export function withAestheticScore<O>(qb: SelectQueryBuilder<DB, 'asset', O>) {
+  return qb
+    .leftJoin('asset_aesthetic_score', 'asset.id', 'asset_aesthetic_score.assetId')
+    .select('asset_aesthetic_score.score as aestheticScore');
+}
+
 export function withFaces(eb: ExpressionBuilder<DB, 'asset'>, withHidden?: boolean, withDeletedFace?: boolean) {
   return jsonArrayFrom(
     eb

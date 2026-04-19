@@ -221,6 +221,24 @@ export class AssetJobRepository {
       .executeTakeFirst();
   }
 
+  @GenerateSql({ params: [], stream: true })
+  streamForAestheticScore(force?: boolean) {
+    return this.assetsWithPreviews()
+      .select(['asset.id'])
+      .$if(!force, (qb) => qb.where('job_status.aestheticScoredAt', 'is', null))
+      .stream();
+  }
+
+  @GenerateSql({ params: [DummyValue.UUID] })
+  getForAestheticScore(id: string) {
+    return this.db
+      .selectFrom('asset')
+      .select(['asset.id', 'asset.visibility'])
+      .select((eb) => withFiles(eb, AssetFileType.Preview))
+      .where('asset.id', '=', id)
+      .executeTakeFirst();
+  }
+
   @GenerateSql({ params: [DummyValue.UUID] })
   getForDetectFacesJob(id: string) {
     return this.db

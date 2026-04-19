@@ -6,6 +6,7 @@ import {
   AssetType,
   AssetVisibility,
   ChecksumAlgorithm,
+  HighlightType,
   MemoryType,
   Permission,
   PluginContext,
@@ -107,6 +108,22 @@ export type Memory = {
   data: object;
   ownerId: string;
   isSaved: boolean;
+  assets: ShallowDehydrateObject<MapAsset>[];
+};
+
+export type Highlight = {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date | null;
+  ownerId: string;
+  name: string;
+  description: string;
+  type: HighlightType;
+  isPinned: boolean;
+  sourceTagId: string | null;
+  thumbnailAssetId: string | null;
+  scoringConfig: object;
   assets: ShallowDehydrateObject<MapAsset>[];
 };
 
