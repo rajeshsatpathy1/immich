@@ -14,6 +14,11 @@ import {
   VideoContainer,
 } from 'src/enum';
 import { ConcurrentQueueName, FullsizeImageOptions, ImageOptions } from 'src/types';
+import {
+  highlightsJobDefaults,
+  highlightsMachineLearningDefaults,
+  highlightsTopLevelDefaults,
+} from 'src/config-highlights';
 
 export type SystemConfig = {
   backup: {
@@ -247,8 +252,7 @@ export const defaults = Object.freeze<SystemConfig>({
     [QueueName.Ocr]: { concurrency: 1 },
     [QueueName.Workflow]: { concurrency: 5 },
     [QueueName.Editor]: { concurrency: 2 },
-    [QueueName.AestheticScore]: { concurrency: 2 },
-    [QueueName.HighlightGenerate]: { concurrency: 1 },
+    ...highlightsJobDefaults,
   },
   logging: {
     enabled: true,
@@ -284,10 +288,7 @@ export const defaults = Object.freeze<SystemConfig>({
       minRecognitionScore: 0.8,
       maxResolution: 736,
     },
-    aesthetic: {
-      enabled: true,
-      modelName: 'aesthetic-predictor-v2-5',
-    },
+    ...highlightsMachineLearningDefaults,
   },
   map: {
     enabled: true,
@@ -409,10 +410,5 @@ export const defaults = Object.freeze<SystemConfig>({
   user: {
     deleteDelay: 7,
   },
-  memories: {
-    enabled: true,
-  },
-  highlights: {
-    enabled: true,
-  },
+  ...highlightsTopLevelDefaults,
 });

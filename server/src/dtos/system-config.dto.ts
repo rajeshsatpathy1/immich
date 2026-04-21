@@ -22,6 +22,7 @@ import {
   FacialRecognitionConfig,
   OcrConfig,
 } from 'src/dtos/model-config.dto';
+import { SystemConfigHighlightsDto, SystemConfigMemoriesDto } from 'src/dtos/highlights-system-config.dto';
 import {
   AudioCodec,
   CQMode,
@@ -731,16 +732,6 @@ class SystemConfigUserDto {
   @Type(() => Number)
   @ApiProperty({ type: 'integer', description: 'Delete delay' })
   deleteDelay!: number;
-}
-
-class SystemConfigMemoriesDto {
-  @ValidateBoolean({ description: 'Enabled' })
-  enabled!: boolean;
-}
-
-class SystemConfigHighlightsDto {
-  @ValidateBoolean({ description: 'Enabled' })
-  enabled!: boolean;
 }
 
 export class SystemConfigDto implements SystemConfig {

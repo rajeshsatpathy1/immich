@@ -37,11 +37,6 @@ export enum AssetType {
   Other = 'OTHER',
 }
 
-export enum ChecksumAlgorithm {
-  sha1File = 'sha1', // sha1 checksum of the whole file contents
-  sha1Path = 'sha1-path', // sha1 checksum of "path:" plus the file path, currently used in external libraries, deprecated
-}
-
 export enum AssetFileType {
   /**
    * An full/large-size image extracted/converted from RAW photos
@@ -77,13 +72,6 @@ export enum EntityType {
 export enum MemoryType {
   /** pictures taken on this day X years ago */
   OnThisDay = 'on_this_day',
-}
-
-export enum HighlightType {
-  /** User-curated highlight from manually selected photos */
-  Manual = 'manual',
-  /** Auto-curated highlight generated from a tag */
-  Auto = 'auto',
 }
 
 export enum AssetOrderWithRandom {
@@ -186,14 +174,6 @@ export enum Permission {
 
   MemoryAssetCreate = 'memoryAsset.create',
   MemoryAssetDelete = 'memoryAsset.delete',
-
-  HighlightCreate = 'highlight.create',
-  HighlightRead = 'highlight.read',
-  HighlightUpdate = 'highlight.update',
-  HighlightDelete = 'highlight.delete',
-
-  HighlightAssetCreate = 'highlightAsset.create',
-  HighlightAssetDelete = 'highlightAsset.delete',
 
   NotificationCreate = 'notification.create',
   NotificationRead = 'notification.read',
@@ -306,6 +286,14 @@ export enum Permission {
   AdminSessionRead = 'adminSession.read',
 
   AdminAuthUnlinkAll = 'adminAuth.unlinkAll',
+
+  HighlightCreate = 'highlight.create',
+  HighlightRead = 'highlight.read',
+  HighlightUpdate = 'highlight.update',
+  HighlightDelete = 'highlight.delete',
+
+  HighlightAssetCreate = 'highlightAsset.create',
+  HighlightAssetDelete = 'highlightAsset.delete',
 }
 
 export enum SharedLinkType {
@@ -387,8 +375,8 @@ export enum ManualJobName {
   UserCleanup = 'user-cleanup',
   MemoryCleanup = 'memory-cleanup',
   MemoryCreate = 'memory-create',
-  HighlightGenerate = 'highlight-generate',
   BackupDatabase = 'backup-database',
+  HighlightGenerate = 'highlight-generate',
 }
 
 export enum AssetPathType {
@@ -580,8 +568,6 @@ export enum QueueName {
   FacialRecognition = 'facialRecognition',
   SmartSearch = 'smartSearch',
   DuplicateDetection = 'duplicateDetection',
-  AestheticScore = 'aestheticScore',
-  HighlightGenerate = 'highlightGenerate',
   BackgroundTask = 'backgroundTask',
   StorageTemplateMigration = 'storageTemplateMigration',
   Migration = 'migration',
@@ -593,6 +579,8 @@ export enum QueueName {
   Ocr = 'ocr',
   Workflow = 'workflow',
   Editor = 'editor',
+  AestheticScore = 'aestheticScore',
+  HighlightGenerate = 'highlightGenerate',
 }
 
 export enum QueueJobStatus {
@@ -644,8 +632,6 @@ export enum JobName {
   MemoryCleanup = 'MemoryCleanup',
   MemoryGenerate = 'MemoryGenerate',
 
-  HighlightGenerate = 'HighlightGenerate',
-
   NotificationsCleanup = 'NotificationsCleanup',
 
   NotifyUserSignup = 'NotifyUserSignup',
@@ -671,9 +657,6 @@ export enum JobName {
   SmartSearchQueueAll = 'SmartSearchQueueAll',
   SmartSearch = 'SmartSearch',
 
-  AestheticScoreQueueAll = 'AestheticScoreQueueAll',
-  AestheticScore = 'AestheticScore',
-
   StorageTemplateMigration = 'StorageTemplateMigration',
   StorageTemplateMigrationSingle = 'StorageTemplateMigrationSingle',
 
@@ -687,6 +670,11 @@ export enum JobName {
 
   // Workflow
   WorkflowRun = 'WorkflowRun',
+
+  HighlightGenerate = 'HighlightGenerate',
+
+  AestheticScoreQueueAll = 'AestheticScoreQueueAll',
+  AestheticScore = 'AestheticScore',
 }
 
 export enum QueueCommand {
@@ -891,7 +879,6 @@ export enum ApiTag {
   Libraries = 'Libraries',
   Maintenance = 'Maintenance (admin)',
   Map = 'Map',
-  Highlights = 'Highlights',
   Memories = 'Memories',
   Notifications = 'Notifications',
   NotificationsAdmin = 'Notifications (admin)',
@@ -914,6 +901,7 @@ export enum ApiTag {
   Users = 'Users',
   Views = 'Views',
   Workflows = 'Workflows',
+  Highlights = 'Highlights',
 }
 
 export enum PluginContext {
@@ -926,3 +914,7 @@ export enum PluginTriggerType {
   AssetCreate = 'AssetCreate',
   PersonRecognized = 'PersonRecognized',
 }
+
+// Custom: highlights & aesthetic-scoring — re-exported from dedicated file
+// to keep the above enums untouched during upstream rebases.
+export { ChecksumAlgorithm, HighlightType } from 'src/enum.highlights';
