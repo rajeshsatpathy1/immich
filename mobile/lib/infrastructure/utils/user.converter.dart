@@ -23,6 +23,7 @@ abstract final class UserConverter {
     updatedAt: adminDto.updatedAt,
     avatarColor: adminDto.avatarColor.toAvatarColor(),
     memoryEnabled: preferenceDto?.memories.enabled ?? true,
+    highlightsEnabled: preferenceDto?.highlights.enabled ?? true,
     inTimeline: false,
     isPartnerSharedBy: false,
     isPartnerSharedWith: false,

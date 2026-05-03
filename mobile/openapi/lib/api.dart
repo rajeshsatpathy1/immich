@@ -41,6 +41,7 @@ part 'api/deprecated_api.dart';
 part 'api/download_api.dart';
 part 'api/duplicates_api.dart';
 part 'api/faces_api.dart';
+part 'api/highlights_api.dart';
 part 'api/jobs_api.dart';
 part 'api/libraries_api.dart';
 part 'api/maintenance_admin_api.dart';
@@ -171,6 +172,13 @@ part 'model/face_dto.dart';
 part 'model/facial_recognition_config.dart';
 part 'model/folders_response.dart';
 part 'model/folders_update.dart';
+part 'model/highlight_create_dto.dart';
+part 'model/highlight_generate_dto.dart';
+part 'model/highlight_generate_from_album_dto.dart';
+part 'model/highlight_response_dto.dart';
+part 'model/highlight_type.dart';
+part 'model/highlight_update_dto.dart';
+part 'model/highlights_response.dart';
 part 'model/image_format.dart';
 part 'model/job_create_dto.dart';
 part 'model/job_name.dart';
@@ -423,7 +431,6 @@ part 'model/workflow_filter_item_dto.dart';
 part 'model/workflow_filter_response_dto.dart';
 part 'model/workflow_response_dto.dart';
 part 'model/workflow_update_dto.dart';
-
 
 /// An [ApiClient] instance that uses the default values obtained from
 /// the OpenAPI specification file.

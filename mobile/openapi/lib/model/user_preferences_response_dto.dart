@@ -18,6 +18,7 @@ class UserPreferencesResponseDto {
     required this.download,
     required this.emailNotifications,
     required this.folders,
+    required this.highlights,
     required this.memories,
     required this.people,
     required this.purchase,
@@ -35,6 +36,8 @@ class UserPreferencesResponseDto {
   EmailNotificationsResponse emailNotifications;
 
   FoldersResponse folders;
+
+  HighlightsResponse highlights;
 
   MemoriesResponse memories;
 
@@ -55,6 +58,7 @@ class UserPreferencesResponseDto {
     other.download == download &&
     other.emailNotifications == emailNotifications &&
     other.folders == folders &&
+    other.highlights == highlights &&
     other.memories == memories &&
     other.people == people &&
     other.purchase == purchase &&
@@ -70,6 +74,7 @@ class UserPreferencesResponseDto {
     (download.hashCode) +
     (emailNotifications.hashCode) +
     (folders.hashCode) +
+    (highlights.hashCode) +
     (memories.hashCode) +
     (people.hashCode) +
     (purchase.hashCode) +
@@ -78,7 +83,7 @@ class UserPreferencesResponseDto {
     (tags.hashCode);
 
   @override
-  String toString() => 'UserPreferencesResponseDto[albums=$albums, cast=$cast, download=$download, emailNotifications=$emailNotifications, folders=$folders, memories=$memories, people=$people, purchase=$purchase, ratings=$ratings, sharedLinks=$sharedLinks, tags=$tags]';
+  String toString() => 'UserPreferencesResponseDto[albums=$albums, cast=$cast, download=$download, emailNotifications=$emailNotifications, folders=$folders, highlights=$highlights, memories=$memories, people=$people, purchase=$purchase, ratings=$ratings, sharedLinks=$sharedLinks, tags=$tags]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -87,6 +92,7 @@ class UserPreferencesResponseDto {
       json[r'download'] = this.download;
       json[r'emailNotifications'] = this.emailNotifications;
       json[r'folders'] = this.folders;
+      json[r'highlights'] = this.highlights;
       json[r'memories'] = this.memories;
       json[r'people'] = this.people;
       json[r'purchase'] = this.purchase;
@@ -110,6 +116,7 @@ class UserPreferencesResponseDto {
         download: DownloadResponse.fromJson(json[r'download'])!,
         emailNotifications: EmailNotificationsResponse.fromJson(json[r'emailNotifications'])!,
         folders: FoldersResponse.fromJson(json[r'folders'])!,
+        highlights: HighlightsResponse.fromJson(json[r'highlights']) ?? HighlightsResponse(),
         memories: MemoriesResponse.fromJson(json[r'memories'])!,
         people: PeopleResponse.fromJson(json[r'people'])!,
         purchase: PurchaseResponse.fromJson(json[r'purchase'])!,
@@ -168,6 +175,7 @@ class UserPreferencesResponseDto {
     'download',
     'emailNotifications',
     'folders',
+    'highlights',
     'memories',
     'people',
     'purchase',

@@ -43,6 +43,7 @@ class UserDto {
   final AvatarColor avatarColor;
 
   final bool memoryEnabled;
+  final bool highlightsEnabled;
   final bool inTimeline;
 
   final bool isPartnerSharedBy;
@@ -65,6 +66,7 @@ class UserDto {
     required this.profileChangedAt,
     this.avatarColor = AvatarColor.primary,
     this.memoryEnabled = true,
+    this.highlightsEnabled = true,
     this.inTimeline = false,
     this.isPartnerSharedBy = false,
     this.isPartnerSharedWith = false,
@@ -83,6 +85,7 @@ isAdmin: $isAdmin,
 updatedAt: $updatedAt,
 avatarColor: $avatarColor,
 memoryEnabled: $memoryEnabled,
+highlightsEnabled: $highlightsEnabled,
 inTimeline: $inTimeline,
 isPartnerSharedBy: $isPartnerSharedBy,
 isPartnerSharedWith: $isPartnerSharedWith,
@@ -99,6 +102,7 @@ profileChangedAt: $profileChangedAt
     DateTime? updatedAt,
     AvatarColor? avatarColor,
     bool? memoryEnabled,
+    bool? highlightsEnabled,
     bool? inTimeline,
     bool? isPartnerSharedBy,
     bool? isPartnerSharedWith,
@@ -114,6 +118,7 @@ profileChangedAt: $profileChangedAt
     updatedAt: updatedAt ?? this.updatedAt,
     avatarColor: avatarColor ?? this.avatarColor,
     memoryEnabled: memoryEnabled ?? this.memoryEnabled,
+    highlightsEnabled: highlightsEnabled ?? this.highlightsEnabled,
     inTimeline: inTimeline ?? this.inTimeline,
     isPartnerSharedBy: isPartnerSharedBy ?? this.isPartnerSharedBy,
     isPartnerSharedWith: isPartnerSharedWith ?? this.isPartnerSharedWith,
@@ -137,6 +142,7 @@ profileChangedAt: $profileChangedAt
         other.isPartnerSharedWith == isPartnerSharedWith &&
         other.isAdmin == isAdmin &&
         other.memoryEnabled == memoryEnabled &&
+        other.highlightsEnabled == highlightsEnabled &&
         other.inTimeline == inTimeline &&
         other.hasProfileImage == hasProfileImage &&
         other.profileChangedAt.isAtSameMomentAs(profileChangedAt) &&
@@ -153,6 +159,7 @@ profileChangedAt: $profileChangedAt
       isAdmin.hashCode ^
       avatarColor.hashCode ^
       memoryEnabled.hashCode ^
+      highlightsEnabled.hashCode ^
       inTimeline.hashCode ^
       isPartnerSharedBy.hashCode ^
       isPartnerSharedWith.hashCode ^
